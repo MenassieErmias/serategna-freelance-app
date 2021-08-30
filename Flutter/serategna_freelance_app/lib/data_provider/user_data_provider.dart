@@ -20,7 +20,7 @@ class UserDataProvider {
 
   Future<UserModel> loginUser(UserModel user) async {
     final response = await httpClient.post(
-      Uri.http('192.168.122.1:5002', '/users/login'),
+      Uri.http('192.168.1.100:5000', '/users/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

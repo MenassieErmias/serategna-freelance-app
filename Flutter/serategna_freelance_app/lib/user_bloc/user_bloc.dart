@@ -13,6 +13,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     SharedPreferences pref = await SharedPreferences.getInstance();
     if (event is StartEvent) yield FormInitState();
     if (event is LoginButtonPressed) {
+      print("here in login");
       yield LoadingState();
       try {
         final user = await userRepo.loginUser(event.user);

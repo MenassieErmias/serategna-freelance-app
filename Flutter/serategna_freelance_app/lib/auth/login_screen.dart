@@ -11,6 +11,7 @@ import 'package:serategna_freelance_app/employer/employer_bottom_navigation.dart
 import 'package:serategna_freelance_app/employer/employer_jobs_list.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_bottom_navigation.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_jobs_list.dart';
+import 'package:serategna_freelance_app/models/user_model.dart';
 import 'package:serategna_freelance_app/user_bloc/bloc.dart';
 
 class LoginPage extends StatefulWidget {
@@ -48,14 +49,20 @@ class _LoginPage extends State<LoginPage> {
         body: BlocListener<UserBloc, UserState>(
           listener: (context, state) {
             if (state is FreelancerLoginSucessState)
-              Navigator.pushNamedAndRemoveUntil(
-                  context, FreelancerJobsList.routeName, (route) => false);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => FreelancerJobsList()),
+                  (route) => false);
             if (state is AdminLoginSucessState)
-              Navigator.pushNamedAndRemoveUntil(
-                  context, AdminJobsList.routeName, (route) => false);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => AdminJobsList()),
+                  (route) => false);
             if (state is EmployerLoginSucessState)
-              Navigator.pushNamedAndRemoveUntil(
-                  context, EmployerJobsList.routeName, (route) => false);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => EmployerJobsList()),
+                  (route) => false);
             if (state is UserFailureState) {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text('${state.message}')));
@@ -250,8 +257,17 @@ class _LoginPage extends State<LoginPage> {
   Widget _submitButton(context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => FreelancerBottomNavigationBar()));
+        final form = _formKey.currentState;
+        if (form.validate()) {
+          print('validated');
+          form.save();
+          BlocProvider.of<UserBloc>(context).add(LoginButtonPressed(
+              user: UserModel(
+            password: password,
+            email: email,
+          )));
+          print("event added");
+        }
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
