@@ -8,12 +8,20 @@ class UserModel extends Equatable {
       this.token,
       this.phoneNumber,
       this.fullName,
-      this.role});
-  final String id, fullName, password, phoneNumber, role, token, email;
+      this.role,
+      this.profession});
+  final String id,
+      fullName,
+      password,
+      phoneNumber,
+      role,
+      token,
+      email,
+      profession;
 
   @override
   List<Object> get props =>
-      [id, fullName, password, phoneNumber, role, token, email];
+      [id, fullName, password, phoneNumber, role, token, email, profession];
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -22,6 +30,7 @@ class UserModel extends Equatable {
         email: json['email'],
         role: json['role'],
         phoneNumber: json['phoneNumber'],
+        profession: json['profession'],
         token: json['token']);
   }
 

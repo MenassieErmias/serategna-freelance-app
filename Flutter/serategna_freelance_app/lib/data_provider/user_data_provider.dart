@@ -10,7 +10,7 @@ class UserDataProvider {
   // final _baseUrl = 'http://192.168.122.1:5050';
   final http.Client httpClient;
 
-  UserDataProvider({@required this.httpClient}) : assert(httpClient != null);
+  UserDataProvider({@required this.httpClient});
 
   Future<String> pref() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -36,7 +36,7 @@ class UserDataProvider {
 
   Future<UserModel> registerUser(UserModel user) async {
     final response = await httpClient.post(
-      Uri.http('192.168.122.1:5002', '/users/register'),
+      Uri.http('192.168.1.100:5000', '/users'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -45,6 +45,7 @@ class UserDataProvider {
         "password": user.password,
         "fullName": user.fullName,
         "phoneNumber": user.phoneNumber,
+        "profession": user.profession,
         "role": user.role.toUpperCase()
       }),
     );

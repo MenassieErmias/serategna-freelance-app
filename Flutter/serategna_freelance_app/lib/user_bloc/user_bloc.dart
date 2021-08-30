@@ -6,9 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepo userRepo;
-  UserBloc({@required this.userRepo})
-      : assert(userRepo != null),
-        super(FormInitState());
+  UserBloc({@required this.userRepo}) : super(FormInitState());
 
   @override
   Stream<UserState> mapEventToState(UserEvent event) async* {
@@ -36,18 +34,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           yield FreelancerLoginSucessState(user: user);
         }
       } catch (e) {
-        yield UserFailureState(message: '${e.message}');
+        yield UserFailureState(message: '${e}');
       }
     }
     if (event is RegisterButtonPressed) {
       yield LoadingState();
       try {
+        print("here");
         await userRepo.registerUser(event.user);
         final users = await userRepo.getUsers();
         yield UsersLoadSucessState(users);
         yield UserRegisterSucessState();
       } catch (e) {
-        yield UserFailureState(message: '${e.message}');
+        yield UserFailureState(message: '${e}');
       }
     }
     if (event is UsersLoad) {
@@ -58,7 +57,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         print("on the user load bloc $users");
         yield UsersLoadSucessState(users);
       } catch (e) {
-        yield UserFailureState(message: '${e.message}');
+        yield UserFailureState(message: '${e}');
       }
     }
     if (event is UserUpdate) {
@@ -68,7 +67,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         final users = await userRepo.getUsers();
         yield UsersLoadSucessState(users);
       } catch (e) {
-        yield UserFailureState(message: '${e.message}');
+        yield UserFailureState(message: '${e}');
       }
     }
     if (event is UserSelfUpdate) {
@@ -76,7 +75,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       try {
         await userRepo.updateSelf(event.user);
       } catch (e) {
-        yield UserFailureState(message: '${e.message}');
+        yield UserFailureState(message: '${e}');
       }
     }
 
@@ -87,7 +86,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         final users = await userRepo.getUsers();
         yield UsersLoadSucessState(users);
       } catch (e) {
-        yield UserFailureState(message: '${e.message}');
+        yield UserFailureState(message: '${e}');
       }
     }
 
@@ -97,7 +96,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         print("loggedin state: $user");
         yield LoggedInUserSuccessState(user: user);
       } catch (e) {
-        yield UserFailureState(message: '${e.message}');
+        yield UserFailureState(message: '${e}');
       }
     }
   }

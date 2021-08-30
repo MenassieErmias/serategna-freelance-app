@@ -4,8 +4,7 @@ import 'package:serategna_freelance_app/models/user_model.dart';
 
 class UserRepo {
   final UserDataProvider userDataProvider;
-  UserRepo({@required this.userDataProvider})
-      : assert(userDataProvider != null);
+  UserRepo({@required this.userDataProvider});
 
   Future<UserModel> loginUser(UserModel user) async {
     return userDataProvider.loginUser(user);
