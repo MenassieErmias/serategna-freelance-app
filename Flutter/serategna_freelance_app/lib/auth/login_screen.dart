@@ -51,17 +51,20 @@ class _LoginPage extends State<LoginPage> {
             if (state is FreelancerLoginSucessState)
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => FreelancerJobsList()),
+                  MaterialPageRoute(
+                      builder: (context) => FreelancerBottomNavigationBar()),
                   (route) => false);
             if (state is AdminLoginSucessState)
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => AdminJobsList()),
+                  MaterialPageRoute(
+                      builder: (context) => AdminBottomNavigationBar()),
                   (route) => false);
             if (state is EmployerLoginSucessState)
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => EmployerJobsList()),
+                  MaterialPageRoute(
+                      builder: (context) => EmployerBottomNavigationBar()),
                   (route) => false);
             if (state is UserFailureState) {
               ScaffoldMessenger.of(context)
