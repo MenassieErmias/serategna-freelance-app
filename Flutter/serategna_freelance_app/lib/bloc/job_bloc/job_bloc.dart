@@ -4,10 +4,10 @@ import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
 import 'package:serategna_freelance_app/repository/job_repo.dart';
 
 class JobBloc extends Bloc<JobEvent, JobState> {
-  final JobRepo jobRepository;
+  final JobRepo jobRepo;
 
-  JobBloc({@required this.jobRepository})
-      : assert(jobRepository != null),
+  JobBloc({@required this.jobRepo})
+      : assert(jobRepo != null),
         super(JobLoading());
 
   @override
@@ -15,7 +15,8 @@ class JobBloc extends Bloc<JobEvent, JobState> {
     if (event is JobLoad) {
       yield JobLoading();
       try {
-        final jobs = await jobRepository.getJobs();
+        final jobs = await jobRepo.getJobs();
+        print(jobs);
         yield JobLoadSuccess(jobs);
       } catch (e) {
         yield JobOperationFailure(message: "$e");
@@ -23,8 +24,8 @@ class JobBloc extends Bloc<JobEvent, JobState> {
     }
     if (event is JobCreate) {
       try {
-        await jobRepository.createJob(event.job);
-        final jobs = await jobRepository.getJobs();
+        await jobRepo.createJob(event.job);
+        final jobs = await jobRepo.getJobs();
         yield JobLoadSuccess(jobs);
         // yield JobLoadSuccess(jobs);
       } catch (e) {
@@ -34,8 +35,8 @@ class JobBloc extends Bloc<JobEvent, JobState> {
 
     if (event is JobUpdate) {
       try {
-        await jobRepository.updateJob(event.job);
-        final jobs = await jobRepository.getJobs();
+        await jobRepo.updateJob(event.job);
+        final jobs = await jobRepo.getJobs();
         yield JobLoadSuccess(jobs);
       } catch (e) {
         yield JobOperationFailure(message: "$e");
@@ -43,8 +44,8 @@ class JobBloc extends Bloc<JobEvent, JobState> {
     }
     if (event is JobDelete) {
       try {
-        await jobRepository.deleteJob(event.job.id);
-        final jobs = await jobRepository.getJobs();
+        await jobRepo.deleteJob(event.job.id);
+        final jobs = await jobRepo.getJobs();
         yield JobLoadSuccess(jobs);
       } catch (e) {
         yield JobOperationFailure(message: "$e");

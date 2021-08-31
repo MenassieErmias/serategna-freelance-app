@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
 import 'package:serategna_freelance_app/employer/add_job.dart';
 import 'package:serategna_freelance_app/employer/employer_profile.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_jobs_details.dart';
@@ -78,59 +80,44 @@ class _EmployerJobsListState extends State<EmployerJobsList> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: ListView.builder(
-          itemCount: jobs.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-              child: Card(
-                child: ListTile(
-                  onTap: () {},
-                  title: Text('\nTitle: ' +
-                      jobs[index].titles +
-                      '\n'
-                          'Salary: ' +
-                      jobs[index].salary +
-                      '\n'
-                          'Job Type: ' +
-                      jobs[index].jobType +
-                      '\n'
-                          'Date Posted: ' +
-                      jobs[index].datePosted +
-                      '\n'
-                          'Company: ' +
-                      jobs[index].company +
-                      '\n'),
-                  subtitle: Column(
-                    children: <Widget>[
-                      Container(
-                          child: Row(
-                        children: <Widget>[
-                          FlatButton(
-                            color: Colors.cyan,
-                            child: Text("Edit"),
-                            onPressed: () {},
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          FlatButton(
-                            color: Colors.red[300],
-                            child: Text("Delete"),
-                            onPressed: () {},
-                          ),
-                        ],
-                      ))
-                    ],
-                  ),
-                  leading: CircleAvatar(
-                      // backgroundImage: AssetImage('assets/${locations[index].flag}'),
-                      ),
-                ),
-              ),
+      body: BlocConsumer<JobBloc, JobState>(
+        listener: (context, state) {
+          if (state is JobOperationFailure) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('${state.message}')));
+          }
+        },
+        builder: (context, state) {
+          if (state is JobLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          }),
+          }
+          if (state is JobLoadSuccess) {
+            final jobs = state.jobs;
+            return ListView.builder(
+                itemCount: jobs.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 1.0, horizontal: 4.0),
+                    child: Card(
+                      child: ListTile(
+                        onTap: () {},
+                        title: Text(jobs[index].title),
+                        subtitle: Text(jobs[index].description),
+                        leading: CircleAvatar(
+                          // backgroundImage: AssetImage('assets/${locations[index].flag}'),
+                          child: Text("A"),
+                        ),
+                      ),
+                    ),
+                  );
+                });
+          }
+          return Container();
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         onPressed: () {

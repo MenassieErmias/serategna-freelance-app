@@ -21,13 +21,13 @@ class JobDataProvider {
 
   Future<String> prefJob() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    String jobID = pref.getString("id");
-    return jobID;
+    String userId = pref.getString("id");
+    return userId;
   }
 
   Future<JobModel> createJob(JobModel job) async {
     final token = await pref();
-    final jobID = await prefJob();
+    final userId = await prefJob();
     final response = await httpClient.post(
       Uri.http('192.168.1.100:5000', '/jobs'),
       headers: <String, String>{
@@ -36,7 +36,7 @@ class JobDataProvider {
       },
       body: jsonEncode(<String, dynamic>{
         "title": job.title,
-        "employer": jobID,
+        "employer": userId,
         "description": job.description,
         "company": job.company,
         "salary": job.salary,
@@ -63,7 +63,7 @@ class JobDataProvider {
       // print("getjobs $jobs");
       return jobs.map((job) => JobModel.fromJson(job)).toList();
     } else {
-      throw Exception('Failed to load posts');
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 

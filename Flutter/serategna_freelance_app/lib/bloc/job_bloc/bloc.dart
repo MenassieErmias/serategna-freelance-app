@@ -1,3 +1,3 @@
-export 'post_bloc.dart';
-export 'post_event.dart';
-export 'post_state.dart';
+export 'job_bloc.dart';
+export 'job_event.dart';
+export 'job_state.dart';

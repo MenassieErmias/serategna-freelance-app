@@ -31,7 +31,7 @@ class JobModel extends Equatable {
 
   factory JobModel.fromJson(Map<String, dynamic> json) {
     return JobModel(
-        id: json['id'],
+        id: json['_id'],
         title: json['title'],
         description: json['description'],
         company: json['company'],
