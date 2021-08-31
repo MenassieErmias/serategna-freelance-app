@@ -1,17 +1,18 @@
 import 'package:equatable/equatable.dart';
 
-class UserModel extends Equatable {
-  UserModel(
+class JobModel extends Equatable {
+  JobModel(
       {this.id,
       this.description,
       this.employer,
       this.position,
-      this.salary,
       this.title,
       this.company,
       this.jobType,
+      this.salary,
       this.isAcceptingApplication});
-  final String id, title, salary, company, position, description, jobType;
+  final int salary;
+  final String id, title, company, position, description, jobType;
   final Map<String, dynamic> employer;
   final bool isAcceptingApplication;
 
@@ -20,16 +21,16 @@ class UserModel extends Equatable {
         id,
         title,
         employer,
-        salary,
         company,
         position,
         description,
         jobType,
+        salary,
         isAcceptingApplication
       ];
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
+  factory JobModel.fromJson(Map<String, dynamic> json) {
+    return JobModel(
         id: json['id'],
         title: json['title'],
         description: json['description'],
@@ -42,5 +43,5 @@ class UserModel extends Equatable {
 
   @override
   String toString() =>
-      'UserModel { id: $id, description: $description, employer: $employer, company:$company}';
+      'JobModel { id: $id, description: $description, employer: $employer, company:$company}';
 }

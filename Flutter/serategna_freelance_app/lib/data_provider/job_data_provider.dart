@@ -3,14 +3,15 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:serategna_freelance_app/constants/constants.dart';
-import 'package:serategna_freelance_app/models/user_model.dart';
+import 'package:serategna_freelance_app/models/job_model.dart';
+import 'package:serategna_freelance_app/models/job_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserDataProvider {
+class JobDataProvider {
   // final _baseUrl = 'http://192.168.122.1:5050';
   final http.Client httpClient;
 
-  UserDataProvider({@required this.httpClient});
+  JobDataProvider({@required this.httpClient});
 
   Future<String> pref() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -18,132 +19,101 @@ class UserDataProvider {
     return token;
   }
 
-  Future<UserModel> loginUser(UserModel user) async {
-    final response = await httpClient.post(
-      Uri.http('192.168.1.100:5000', '/users/login'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(
-          <String, dynamic>{"email": user.email, "password": user.password}),
-    );
-
-    if (response.statusCode == 200)
-      return UserModel.fromJson(jsonDecode(response.body));
-    else
-      throw Exception(jsonDecode(response.body)["message"]);
+  Future<String> prefJob() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String jobID = pref.getString("id");
+    return jobID;
   }
 
-  Future<UserModel> registerUser(UserModel user) async {
+  Future<JobModel> createJob(JobModel job) async {
+    final token = await pref();
+    final jobID = await prefJob();
     final response = await httpClient.post(
-      Uri.http('192.168.1.100:5000', '/users'),
+      Uri.http('192.168.1.100:5000', '/jobs'),
       headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token'
       },
       body: jsonEncode(<String, dynamic>{
-        "email": user.email,
-        "password": user.password,
-        "fullName": user.fullName,
-        "phoneNumber": user.phoneNumber,
-        "profession": user.profession,
-        "role": user.role.toUpperCase()
+        "title": job.title,
+        "employer": jobID,
+        "description": job.description,
+        "company": job.company,
+        "salary": job.salary,
+        "position": job.position,
+        "jobType": job.jobType,
       }),
     );
 
     if (response.statusCode == 201) {
-      return UserModel.fromJson(jsonDecode(response.body));
+      return JobModel.fromJson(jsonDecode(response.body));
     } else
       throw Exception(jsonDecode(response.body)["message"]);
   }
 
-  Future<void> deleteUser(String id) async {
-    final token = await pref();
-    final response = await httpClient.delete(
-      Uri.parse('${Constants.baseUrl}/users/$id'),
-      headers: <String, String>{
-        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-        HttpHeaders.authorizationHeader: 'Bearer $token'
-      },
-    );
-    if (response.statusCode != 204) {
-      throw Exception("error deleting user");
-    }
-  }
-
-  Future<void> updateUser(UserModel user) async {
-    final token = await pref();
-    Map<String, dynamic> body1 = {
-      'fullName': user.fullName,
-      'email': user.email,
-      'password': user.password,
-      'role': user.role,
-      'phoneNumber': user.phoneNumber,
-    };
-    Map<String, dynamic> body2 = {
-      'fullName': user.fullName,
-      'email': user.email,
-      'role': user.role,
-      'phoneNumber': user.phoneNumber
-    };
-    final http.Response response = await httpClient.put(
-      Uri.parse('${Constants.baseUrl}/users/${user.id}'),
-      headers: <String, String>{
-        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-        HttpHeaders.authorizationHeader: 'Bearer $token'
-      },
-      body: jsonEncode(user.password != null ? body1 : body2),
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('${response.body}');
-    }
-  }
-
-  Future<void> updateSelf(UserModel user) async {
-    final token = await pref();
-    final http.Response response = await httpClient.put(
-      Uri.parse('${Constants.baseUrl}/users/update'),
-      headers: {
-        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-        HttpHeaders.authorizationHeader: 'Bearer $token'
-      },
-      body: jsonEncode(<String, dynamic>{
-        'fullName': user.fullName,
-        'email': user.email,
-        'password': user.password,
-        'phoneNumber': user.phoneNumber
-      }),
-    );
-
-    if (response.statusCode != 200) {
-      throw Exception('Failed to update user.');
-    }
-  }
-
-  Future<List<UserModel>> getUsers() async {
+  Future<List<JobModel>> getJobs() async {
     final token = await pref();
     final http.Response response =
-        await httpClient.get(Uri.parse('${Constants.baseUrl}/users'), headers: {
+        await httpClient.get(Uri.parse('${Constants.baseUrl}/jobs'), headers: {
+      HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       HttpHeaders.authorizationHeader: 'Bearer $token',
     });
     if (response.statusCode == 200) {
-      final users = jsonDecode(response.body) as List;
-      // print("getusers $users");
-      return users.map((user) => UserModel.fromJson(user)).toList();
+      final jobs = jsonDecode(response.body) as List;
+      // print("getjobs $jobs");
+      return jobs.map((job) => JobModel.fromJson(job)).toList();
     } else {
       throw Exception('Failed to load posts');
     }
   }
 
-  Future<UserModel> getUserByID(String id) async {
+  Future<JobModel> getJobByID(String id) async {
     final token = await pref();
     final http.Response response = await httpClient
-        .get(Uri.parse('${Constants.baseUrl}/users/$id'), headers: {
+        .get(Uri.parse('${Constants.baseUrl}/jobs/$id'), headers: {
       HttpHeaders.authorizationHeader: 'Bearer $token',
     });
     if (response.statusCode == 200)
-      return UserModel.fromJson(jsonDecode(response.body));
+      return JobModel.fromJson(jsonDecode(response.body));
     else
       throw Exception(jsonDecode(response.body)["message"]);
+  }
+
+  Future<void> deleteJob(String id) async {
+    final token = await pref();
+    final response = await httpClient.delete(
+      Uri.parse('${Constants.baseUrl}/jobs/$id'),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      },
+    );
+    if (response.statusCode != 200) {
+      throw Exception(jsonDecode(response.body)["message"]);
+    }
+  }
+
+  Future<void> updateJob(JobModel job) async {
+    final token = await pref();
+    Map<String, dynamic> body = {
+      "title": job.title,
+      "description": job.description,
+      "company": job.company,
+      "salary": job.salary,
+      "position": job.position,
+      "jobType": job.jobType,
+    };
+    final http.Response response = await httpClient.put(
+      Uri.parse('${Constants.baseUrl}/jobs/${job.id}'),
+      headers: <String, String>{
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      },
+      body: jsonEncode(body),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception(jsonDecode(response.body)["message"]);
+    }
   }
 }
