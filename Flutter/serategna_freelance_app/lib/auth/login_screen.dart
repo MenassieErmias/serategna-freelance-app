@@ -12,7 +12,7 @@ import 'package:serategna_freelance_app/employer/employer_jobs_list.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_bottom_navigation.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_jobs_list.dart';
 import 'package:serategna_freelance_app/models/user_model.dart';
-import 'package:serategna_freelance_app/user_bloc/bloc.dart';
+import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';

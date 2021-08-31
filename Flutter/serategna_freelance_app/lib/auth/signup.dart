@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/auth/login_screen.dart';
 import 'package:serategna_freelance_app/auth/userForm.dart';
-import 'package:serategna_freelance_app/user_bloc/bloc.dart';
+import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
 
 class Register extends StatelessWidget {
   static String routeName = '/register';

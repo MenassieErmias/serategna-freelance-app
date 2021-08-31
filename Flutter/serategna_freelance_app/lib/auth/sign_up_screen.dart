@@ -5,7 +5,7 @@ import 'package:serategna_freelance_app/auth/login_screen.dart';
 import 'package:serategna_freelance_app/commons/loading.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:serategna_freelance_app/models/user_model.dart';
-import 'package:serategna_freelance_app/user_bloc/bloc.dart';
+import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
 import '../commons/dialog.dart';
 
 class SignUpPage extends StatefulWidget {

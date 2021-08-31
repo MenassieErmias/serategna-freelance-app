@@ -14,7 +14,7 @@ import 'package:serategna_freelance_app/freelancer/freelancer_jobs_details.dart'
 import 'package:serategna_freelance_app/freelancer/freelancer_jobs_list.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_notifications.dart';
 import 'package:serategna_freelance_app/repository/user_repo.dart';
-import 'package:serategna_freelance_app/user_bloc/bloc.dart';
+import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
 import 'employer/employer_jobs_list.dart';
 import 'freelancer/freelancer_bottom_navigation.dart';
 import 'package:http/http.dart' as http;
