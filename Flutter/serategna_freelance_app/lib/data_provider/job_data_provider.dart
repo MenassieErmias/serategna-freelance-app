@@ -103,6 +103,7 @@ class JobDataProvider {
       "position": job.position,
       "jobType": job.jobType,
     };
+    print("job id ${job.id == null ? job.id : null}");
     final http.Response response = await httpClient.put(
       Uri.parse('${Constants.baseUrl}/jobs/${job.id}'),
       headers: <String, String>{

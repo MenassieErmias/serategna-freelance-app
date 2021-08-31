@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
 import 'package:serategna_freelance_app/employer/add_job.dart';
 import 'package:serategna_freelance_app/employer/employer_profile.dart';
@@ -101,16 +102,48 @@ class _EmployerJobsListState extends State<EmployerJobsList> {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 1.0, horizontal: 4.0),
-                    child: Card(
+                    child: Slidable(
+                      actionPane: SlidableDrawerActionPane(),
+                      actionExtentRatio: 0.25,
                       child: ListTile(
                         onTap: () {},
-                        title: Text(jobs[index].title),
-                        subtitle: Text(jobs[index].description),
+                        title: Text(
+                            jobs[index].title != null ? jobs[index].title : ""),
+                        subtitle: Text(jobs[index].description != null
+                            ? jobs[index].description
+                            : ""),
                         leading: CircleAvatar(
                           // backgroundImage: AssetImage('assets/${locations[index].flag}'),
                           child: Text("A"),
                         ),
                       ),
+                      secondaryActions: [
+                        IconSlideAction(
+                          caption: 'Delete',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: () => BlocProvider.of<JobBloc>(context)
+                              .add(JobDelete(job: jobs[index])),
+                        ),
+                        IconSlideAction(
+                          caption: 'Update',
+                          color: Colors.grey,
+                          icon: Icons.delete,
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BlocProvider.value(
+                                          value:
+                                              BlocProvider.of<JobBloc>(context),
+                                          child: AddJob(
+                                            createJob: false,
+                                            job: jobs[index],
+                                          ),
+                                        )));
+                          },
+                        )
+                      ],
                     ),
                   );
                 });
@@ -121,8 +154,10 @@ class _EmployerJobsListState extends State<EmployerJobsList> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         onPressed: () {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => AddJob()));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => AddJob(
+                    createJob: true,
+                  )));
         },
         tooltip: 'Add Job',
         child: Icon(Icons.add),

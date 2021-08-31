@@ -27,6 +27,8 @@ class _AddJobState extends State<AddJob> {
   String _currentExpireDate;
   String docId;
 
+  Map<String, dynamic> jobData = {};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,12 +57,14 @@ class _AddJobState extends State<AddJob> {
                     ),
                     validator: (val) =>
                         val.isEmpty ? 'Please Enter Title' : null,
-                    onChanged: (val) => setState(() => _currentName = val),
+                    onSaved: (val) =>
+                        setState(() => jobData["_currentName"] = val),
                   ),
                   SizedBox(height: 10.0),
                   TextFormField(
-                    initialValue:
-                        this.widget.createJob ? "" : this.widget.job.salary,
+                    initialValue: this.widget.createJob
+                        ? ""
+                        : this.widget.job.salary.toString(),
                     decoration: InputDecoration(
                       labelText: 'Salary',
                       focusColor: Color(0xff4064f3),
@@ -70,7 +74,8 @@ class _AddJobState extends State<AddJob> {
                     ),
                     validator: (val) =>
                         val.isEmpty ? 'Please Enter Salary' : null,
-                    onChanged: (val) => setState(() => _currentPrice = val),
+                    onSaved: (val) =>
+                        setState(() => jobData["_currentPrice"] = val),
                   ),
                   SizedBox(height: 10.0),
                   TextFormField(
@@ -85,8 +90,8 @@ class _AddJobState extends State<AddJob> {
                     ),
                     validator: (val) =>
                         val.isEmpty ? 'Please enter Company Name' : null,
-                    onChanged: (val) =>
-                        setState(() => _currentManufacturingCompany = val),
+                    onSaved: (val) => setState(
+                        () => jobData["_currentManufacturingCompany"] = val),
                   ),
                   SizedBox(height: 10.0),
                   TextFormField(
@@ -101,7 +106,8 @@ class _AddJobState extends State<AddJob> {
                     ),
                     validator: (val) =>
                         val.isEmpty ? 'Please Enter Position' : null,
-                    onChanged: (val) => setState(() => _currentBrand = val),
+                    onSaved: (val) =>
+                        setState(() => jobData["_currentBrand"] = val),
                   ),
                   SizedBox(height: 10.0),
                   TextFormField(
@@ -117,8 +123,8 @@ class _AddJobState extends State<AddJob> {
                     ),
                     validator: (val) =>
                         val.isEmpty ? 'Please enter Description' : null,
-                    onChanged: (val) =>
-                        setState(() => _currentDescription = val),
+                    onSaved: (val) =>
+                        setState(() => jobData["_currentDescription"] = val),
                   ),
                   SizedBox(height: 10.0),
                   TextFormField(
@@ -133,16 +139,15 @@ class _AddJobState extends State<AddJob> {
                     ),
                     validator: (val) =>
                         val.isEmpty ? 'Please enter Job Type' : null,
-                    onChanged: (val) =>
-                        setState(() => _currentManufactringDate = val),
+                    onSaved: (val) => setState(
+                        () => jobData["_currentManufactringDate"] = val),
                   ),
                   SizedBox(height: 20.0),
                   RaisedButton(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 160),
+                      padding: EdgeInsets.symmetric(horizontal: 50),
                       color: Colors.green[400],
                       child: Text(
-                        'Post',
+                        this.widget.createJob ? 'Post' : 'update',
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {
@@ -153,12 +158,15 @@ class _AddJobState extends State<AddJob> {
 
                           form.save();
                           JobModel jobModel = JobModel(
-                              title: _currentName,
-                              description: _currentDescription,
-                              salary: int.parse(_currentPrice),
-                              company: _currentManufacturingCompany,
-                              jobType: _currentManufactringDate,
-                              position: _currentBrand);
+                              id: this.widget.job != null
+                                  ? this.widget.job.id
+                                  : "",
+                              title: jobData["_currentName"],
+                              description: jobData["_currentDescription"],
+                              salary: int.parse(jobData["_currentPrice"]),
+                              company: jobData["_currentManufacturingCompany"],
+                              jobType: jobData["_currentManufactringDate"],
+                              position: jobData["_currentBrand"]);
                           JobEvent event = this.widget.createJob
                               ? JobCreate(jobModel)
                               : JobUpdate(jobModel);
