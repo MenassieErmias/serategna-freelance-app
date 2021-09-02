@@ -19,15 +19,21 @@ class JobDataProvider {
     return token;
   }
 
-  Future<String> prefJob() async {
+  Future<String> prefUser() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String userId = pref.getString("id");
     return userId;
   }
 
+  Future<String> getRole() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String role = pref.getString('role');
+    return role;
+  }
+
   Future<JobModel> createJob(JobModel job) async {
     final token = await pref();
-    final userId = await prefJob();
+    final userId = await prefUser();
     final response = await httpClient.post(
       Uri.http('192.168.1.100:5000', '/jobs'),
       headers: <String, String>{
@@ -53,11 +59,19 @@ class JobDataProvider {
 
   Future<List<JobModel>> getJobs() async {
     final token = await pref();
-    final http.Response response =
-        await httpClient.get(Uri.parse('${Constants.baseUrl}/jobs'), headers: {
-      HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-      HttpHeaders.authorizationHeader: 'Bearer $token',
-    });
+    final userId = await prefUser();
+    final role = await getRole();
+    final http.Response response = role == "EMPLOYER"
+        ? await httpClient
+            .get(Uri.parse('${Constants.baseUrl}/jobs/own/$userId'), headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+            HttpHeaders.authorizationHeader: 'Bearer $token',
+          })
+        : await httpClient
+            .get(Uri.parse('${Constants.baseUrl}/jobs'), headers: {
+            HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
+            HttpHeaders.authorizationHeader: 'Bearer $token',
+          });
     if (response.statusCode == 200) {
       final jobs = jsonDecode(response.body) as List;
       // print("getjobs $jobs");
