@@ -101,18 +101,22 @@ class UserDataProvider {
 
   Future<void> updateSelf(UserModel user) async {
     final token = await pref();
+    Map<String, dynamic> body = {
+      'fullName': user.fullName,
+      'email': user.email,
+      'profession': user.profession,
+      'phoneNumber': user.phoneNumber
+    };
+    if (user.password != null) {
+      body["password"] = user.password;
+    }
     final http.Response response = await httpClient.put(
       Uri.parse('${Constants.baseUrl}/users/update'),
       headers: {
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token'
       },
-      body: jsonEncode(<String, dynamic>{
-        'fullName': user.fullName,
-        'email': user.email,
-        'password': user.password,
-        'phoneNumber': user.phoneNumber
-      }),
+      body: jsonEncode(body),
     );
 
     if (response.statusCode != 200) {

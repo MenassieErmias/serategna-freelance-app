@@ -34,6 +34,8 @@ class EmployerLoginSucessState extends UserState {
 
 class UserRegisterSucessState extends UserState {}
 
+class UserUpdateSucessState extends UserState {}
+
 class UsersLoadSucessState extends UserState {
   final List<UserModel> users;
   UsersLoadSucessState([this.users = const []]);

@@ -44,8 +44,10 @@ class _FreelancerJobsDetailsState extends State<FreelancerJobsDetails> {
             padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     DetailRow(
                       title: "Job Title:   ",
@@ -81,7 +83,7 @@ class _FreelancerJobsDetailsState extends State<FreelancerJobsDetails> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                         fixedSize: MaterialStateProperty.all(Size(
-                            MediaQuery.of(context).size.width / 1.5,
+                            MediaQuery.of(context).size.width,
                             MediaQuery.of(context).size.height / 17)),
                         padding: MaterialStateProperty.all(EdgeInsets.symmetric(
                             horizontal: 50, vertical: 15))),

@@ -70,6 +70,7 @@ class _EmployerJobsListState extends State<EmployerJobsList> {
   int _currentIndex = 0;
   @override
   void initState() {
+    BlocProvider.of<JobBloc>(context).add(JobLoad());
     super.initState();
   }
 

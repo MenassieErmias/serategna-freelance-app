@@ -4,6 +4,7 @@ import 'package:serategna_freelance_app/auth/login_screen.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_jobs_details.dart';
 import 'package:serategna_freelance_app/models/jobs_list.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FreelancerJobsList extends StatefulWidget {
   static const routeName = '/freelancerJobList';
@@ -78,6 +79,20 @@ class _FreelancerJobsListState extends State<FreelancerJobsList> {
         title: Text('Jobs'),
         centerTitle: true,
         elevation: 0,
+        actions: [
+          IconButton(
+              onPressed: () async {
+                SharedPreferences pref = await SharedPreferences.getInstance();
+                pref.remove("token");
+                pref.remove("role");
+                pref.remove("id");
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                    (route) => false);
+              },
+              icon: Icon(Icons.logout_outlined))
+        ],
       ),
       body: BlocConsumer<JobBloc, JobState>(
         listener: (context, state) {
@@ -145,8 +160,13 @@ class _FreelancerJobsListState extends State<FreelancerJobsList> {
                           ],
                         ),
                         leading: CircleAvatar(
-                            // backgroundImage: AssetImage('assets/${locations[index].flag}'),
-                            ),
+                          child: Text(jobs[index]
+                              .employer["fullName"]
+                              .toString()
+                              .substring(0, 1)
+                              .toUpperCase()),
+                          // backgroundImage: AssetImage('assets/${locations[index].flag}'),
+                        ),
                       ),
                     ),
                   );

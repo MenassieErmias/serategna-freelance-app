@@ -30,6 +30,7 @@ class _FreelancerNotificationsState extends State<FreelancerNotifications> {
   int _currentIndex = 0;
   @override
   void initState() {
+    BlocProvider.of<ApplicationBloc>(context).add(ApplicationLoad());
     super.initState();
   }
 

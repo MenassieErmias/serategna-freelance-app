@@ -75,6 +75,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield LoadingState();
       try {
         await userRepo.updateSelf(event.user);
+        yield UserUpdateSucessState();
       } catch (e) {
         yield UserFailureState(message: '${e}');
       }
