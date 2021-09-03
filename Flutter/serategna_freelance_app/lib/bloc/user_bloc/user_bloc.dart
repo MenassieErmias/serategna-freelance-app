@@ -41,31 +41,29 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if (event is RegisterButtonPressed) {
       yield LoadingState();
       try {
-        print("here");
         await userRepo.registerUser(event.user);
-        final users = await userRepo.getUsers();
-        yield UsersLoadSucessState(users);
         yield UserRegisterSucessState();
       } catch (e) {
         yield UserFailureState(message: '${e}');
       }
     }
-    if (event is UsersLoad) {
+    if (event is EmployersLoad) {
       yield LoadingState();
       try {
-        final users = await userRepo.getUsers();
+        final users = await userRepo.getEmployers();
         // print('user 1 : $users[0]');
-        print("on the user load bloc $users");
+        print("on the employer load bloc $users");
         yield UsersLoadSucessState(users);
       } catch (e) {
         yield UserFailureState(message: '${e}');
       }
     }
-    if (event is UserUpdate) {
+    if (event is FreelancersLoad) {
       yield LoadingState();
       try {
-        await userRepo.updateUser(event.user);
-        final users = await userRepo.getUsers();
+        final users = await userRepo.getFreelancers();
+        // print('user 1 : $users[0]');
+        print("on the freelancer load bloc $users");
         yield UsersLoadSucessState(users);
       } catch (e) {
         yield UserFailureState(message: '${e}');
@@ -81,11 +79,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
     }
 
-    if (event is UserDelete) {
+    if (event is FreelancerDelete) {
       yield LoadingState();
       try {
         await userRepo.deleteUser(event.user.id);
-        final users = await userRepo.getUsers();
+        final users = await userRepo.getEmployers();
+        yield UsersLoadSucessState(users);
+      } catch (e) {
+        yield UserFailureState(message: '${e}');
+      }
+    }
+    if (event is EmployerDelete) {
+      yield LoadingState();
+      try {
+        await userRepo.deleteUser(event.user.id);
+        final users = await userRepo.getFreelancers();
         yield UsersLoadSucessState(users);
       } catch (e) {
         yield UserFailureState(message: '${e}');

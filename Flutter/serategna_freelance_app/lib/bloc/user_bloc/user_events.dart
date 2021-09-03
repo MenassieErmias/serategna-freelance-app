@@ -50,18 +50,36 @@ class UserUpdate extends UserEvent {
   String toString() => 'User $user Updated';
 }
 
-class UserDelete extends UserEvent {
+class FreelancerDelete extends UserEvent {
   final UserModel user;
-  UserDelete({this.user});
+  FreelancerDelete({this.user});
   @override
   List<Object> get props => [user];
   @override
   String toString() => 'User $user Deleted';
 }
 
-class UsersLoad extends UserEvent {
+class EmployerDelete extends UserEvent {
+  final UserModel user;
+  EmployerDelete({this.user});
+  @override
+  List<Object> get props => [user];
+  @override
+  String toString() => 'User $user Deleted';
+}
+
+class EmployersLoad extends UserEvent {
   final List<UserModel> user;
-  UsersLoad({this.user});
+  EmployersLoad({this.user});
+  @override
+  List<Object> get props => [user];
+  @override
+  String toString() => 'Users $user';
+}
+
+class FreelancersLoad extends UserEvent {
+  final List<UserModel> user;
+  FreelancersLoad({this.user});
   @override
   List<Object> get props => [user];
   @override

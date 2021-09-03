@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:serategna_freelance_app/models/employer_list.dart';
-import 'package:serategna_freelance_app/models/jobs_list.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:serategna_freelance_app/bloc/application_bloc/bloc.dart';
+import 'package:serategna_freelance_app/commons/application_detail.dart';
 
 class EmployerNotifications extends StatefulWidget {
-
   @override
   _EmployerNotificationsState createState() => _EmployerNotificationsState();
 }
 
 class _EmployerNotificationsState extends State<EmployerNotifications> {
- List<JobsList> jobs = [
-    JobsList(titles: 'Graphics Designer', salary: '2000', jobType: 'Permanent', datePosted: '10/4/21', company: 'AZ Media'),
-    JobsList(titles: 'Graphics Designer', salary: '2000', jobType: 'Permanent', datePosted: '10/4/21', company: 'AZ Media'),
- ];
-  
-  int _currentIndex = 0;
+  @override
+  void initState() {
+    BlocProvider.of<ApplicationBloc>(context).add(ApplicationLoad());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,47 +25,62 @@ class _EmployerNotificationsState extends State<EmployerNotifications> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: ListView.builder(
-        itemCount: jobs.length,
-        itemBuilder: (context, index) {
-    return new Container(
-      child: Card(child: ListTile(
-                onTap: () {},
-                title: Text('\nTitle: '+ jobs[index].titles + '\n'
-                            'Salary: '+jobs[index].salary + '\n'
-                            'Job Type: '+jobs[index].jobType + '\n'
-                            'Date Posted: '+jobs[index].datePosted + '\n'
-                            'Company: '+jobs[index].company + '\n\n'
-                            '\t\tA user has applied '
-                ),
-                subtitle: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Row(
-                      children: <Widget>[
-                        FlatButton(
-                          color: Colors.cyan,
-                          child: Text("Accept"),
-                          onPressed: () {},
-                        ),
-                        SizedBox(width: 15,),
-                        FlatButton(
-                          color: Colors.red[300],
-                          child: Text("Decline"),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ))
-                  ],
-                ),
-                leading: CircleAvatar(
-                  // backgroundImage: AssetImage('assets/${locations[index].flag}'),
-                ),
+      body: BlocConsumer<ApplicationBloc, ApplicationState>(
+        listener: (context, state) {
+          if (state is ApplicationOperationFailure) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('${state.message}')));
+          }
+        },
+        builder: (context, state) {
+          if (state is ApplicationLoading) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Colors.indigo,
               ),
+            );
+          }
+          if (state is ApplicationLoadSuccess) {
+            final applications = state.applications;
+            return ListView.builder(
+                itemCount: applications.length,
+                itemBuilder: (context, index) {
+                  final application = applications[index];
+                  return ListTile(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ApplicationDetail(
+                                    application: application,
+                                  )));
+                    },
+                    title: Text('\nTitle: ' +
+                        application.job["title"] +
+                        '\n'
+                            'Salary: ' +
+                        application.job["salary"].toString() +
+                        '\n'
+                            'Job Type: ' +
+                        application.job["jobType"] +
+                        '\n'
+                            'Date Posted: ' +
+                        application.job["position"] +
+                        '\n'
+                            'Company: ' +
+                        application.job["company"] +
+                        '\n'
+                            'Applicant: ' +
+                        application.job["employer"]["fullName"]),
+                    leading: CircleAvatar(
+                        // backgroundImage: AssetImage('assets/${locations[index].flag}'),
+                        ),
+                  );
+                });
+          }
+          return Container();
+        },
       ),
     );
-  }),
-  
-  );
-    }
+  }
 }

@@ -34,7 +34,8 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationState> {
 
     if (event is ApplicationUpdate) {
       try {
-        await applicationRepo.updateApplication(event.application);
+        await applicationRepo.updateApplication(
+            event.application, event.status);
         final applications = await applicationRepo.getApplications();
         yield ApplicationLoadSuccess(applications);
       } catch (e) {

@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/auth/login_screen.dart';
-import 'package:serategna_freelance_app/bloc/favorite_bloc/bloc.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
 import 'package:serategna_freelance_app/commons/jobDetail.dart';
-import 'package:serategna_freelance_app/freelancer/freelancer_jobs_details.dart';
 import 'package:serategna_freelance_app/models/job_model.dart';
+import 'package:serategna_freelance_app/utils/pref_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FreelancerJobsList extends StatefulWidget {
+class JobsList extends StatefulWidget {
   static const routeName = '/freelancerJobList';
   @override
-  _FreelancerJobsListState createState() => _FreelancerJobsListState();
+  _JobsListState createState() => _JobsListState();
 }
 
-class _FreelancerJobsListState extends State<FreelancerJobsList> {
+class _JobsListState extends State<JobsList> {
   @override
   void initState() {
     BlocProvider.of<JobBloc>(context).add(JobLoad());
@@ -89,7 +88,9 @@ class _FreelancerJobsListState extends State<FreelancerJobsList> {
                                 FlatButton(
                                   color: Colors.amber,
                                   child: Text("Details"),
-                                  onPressed: () {
+                                  onPressed: () async {
+                                    final role = await getRole();
+                                    final userId = await prefUser();
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                             builder: (_) => JobsDetails(
@@ -111,6 +112,8 @@ class _FreelancerJobsListState extends State<FreelancerJobsList> {
                                                           .isAcceptingApplication,
                                                       description: jobs[index]
                                                           .description),
+                                                  userId: userId,
+                                                  role: role,
                                                 )));
                                   },
                                 ),

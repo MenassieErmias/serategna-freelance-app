@@ -5,18 +5,18 @@ import 'package:serategna_freelance_app/admin/admin_jobs_list.dart';
 
 class AdminBottomNavigationBar extends StatefulWidget {
   @override
-  _AdminBottomNavigationBarState createState() => _AdminBottomNavigationBarState();
+  _AdminBottomNavigationBarState createState() =>
+      _AdminBottomNavigationBarState();
 }
 
 class _AdminBottomNavigationBarState extends State<AdminBottomNavigationBar> {
-  
   int _currentIndex = 0;
   final List<Widget> _children = [
     AdminJobsList(),
     AdminFreelancersList(),
-    AdminEmployerList(),
+    AdminEmployersList(),
   ];
-  void onTapBar(int index){
+  void onTapBar(int index) {
     setState(() {
       _currentIndex = index;
     });
@@ -24,7 +24,7 @@ class _AdminBottomNavigationBarState extends State<AdminBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -35,17 +35,17 @@ class _AdminBottomNavigationBarState extends State<AdminBottomNavigationBar> {
             icon: Icon(Icons.assignment),
             title: Text('Jobs'),
             backgroundColor: Colors.red,
-            ),
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             title: Text('Freelancers'),
             backgroundColor: Colors.green,
-            ),
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.group),
             title: Text('Employers'),
             backgroundColor: Colors.blue,
-            )
+          )
         ],
       ),
     );

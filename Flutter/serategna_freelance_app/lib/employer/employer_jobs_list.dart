@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:serategna_freelance_app/auth/login_screen.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
+import 'package:serategna_freelance_app/commons/jobDetail.dart';
 import 'package:serategna_freelance_app/employer/add_job.dart';
-import 'package:serategna_freelance_app/employer/employer_profile.dart';
-import 'package:serategna_freelance_app/freelancer/freelancer_jobs_details.dart';
-import 'package:serategna_freelance_app/models/jobs_list.dart';
+import 'package:serategna_freelance_app/models/job_model.dart';
+import 'package:serategna_freelance_app/utils/pref_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class EmployerJobsList extends StatefulWidget {
@@ -16,58 +16,6 @@ class EmployerJobsList extends StatefulWidget {
 }
 
 class _EmployerJobsListState extends State<EmployerJobsList> {
-  List<JobsList> jobs = [
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-  ];
-
-  int _currentIndex = 0;
   @override
   void initState() {
     BlocProvider.of<JobBloc>(context).add(JobLoad());
@@ -123,7 +71,28 @@ class _EmployerJobsListState extends State<EmployerJobsList> {
                       actionPane: SlidableDrawerActionPane(),
                       actionExtentRatio: 0.25,
                       child: ListTile(
-                        onTap: () {},
+                        onTap: () async {
+                          final role = await getRole();
+                          final userId = await prefUser();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => JobsDetails(
+                                    userId: userId,
+                                    role: role,
+                                    job: JobModel(
+                                        title: jobs[index].title,
+                                        salary: jobs[index].salary,
+                                        company: jobs[index].company,
+                                        position: jobs[index].position,
+                                        employer: jobs[index].employer,
+                                        jobType: jobs[index].jobType,
+                                        id: jobs[index].id,
+                                        isAcceptingApplication:
+                                            jobs[index].isAcceptingApplication,
+                                        description: jobs[index].description)),
+                              ));
+                        },
                         title: Text(
                             jobs[index].title != null ? jobs[index].title : ""),
                         subtitle: Text(jobs[index].description != null

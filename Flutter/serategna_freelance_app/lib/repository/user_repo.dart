@@ -30,7 +30,11 @@ class UserRepo {
     return userDataProvider.deleteUser(id);
   }
 
-  Future<List<UserModel>> getUsers() async {
-    return userDataProvider.getUsers();
+  Future<List<UserModel>> getEmployers() async {
+    return userDataProvider.getEmployers();
+  }
+
+  Future<List<UserModel>> getFreelancers() async {
+    return userDataProvider.getFreelancers();
   }
 }

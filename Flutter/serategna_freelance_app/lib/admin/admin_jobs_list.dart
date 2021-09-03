@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/admin/admin_jobs_details.dart';
+import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
+import 'package:serategna_freelance_app/commons/jobDetail.dart';
+import 'package:serategna_freelance_app/models/job_model.dart';
 import 'package:serategna_freelance_app/models/jobs_list.dart';
+import 'package:serategna_freelance_app/utils/pref_functions.dart';
 
 class AdminJobsList extends StatefulWidget {
   static const routeName = '/adminJobList';
@@ -76,62 +81,98 @@ class _AdminJobsListState extends State<AdminJobsList> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: ListView.builder(
-          itemCount: jobs.length,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-              child: Card(
-                child: ListTile(
-                  onTap: () {},
-                  title: Text('\nTitle: ' +
-                      jobs[index].titles +
-                      '\n'
-                          'Salary: ' +
-                      jobs[index].salary +
-                      '\n'
-                          'Job Type: ' +
-                      jobs[index].jobType +
-                      '\n'
-                          'Date Posted: ' +
-                      jobs[index].datePosted +
-                      '\n'
-                          'Company: ' +
-                      jobs[index].company +
-                      '\n'),
-                  subtitle: Column(
-                    children: <Widget>[
-                      Container(
-                          child: Row(
-                        children: <Widget>[
-                          FlatButton(
-                            color: Colors.amber,
-                            child: Text("Details"),
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => AdminJobsDetails()));
-                            },
-                          ),
-                          SizedBox(
-                            width: 15,
-                          ),
-                          FlatButton(
-                            color: Colors.red[300],
-                            child: Text("Delete"),
-                            onPressed: () {},
-                          ),
-                        ],
-                      ))
-                    ],
-                  ),
-                  leading: CircleAvatar(
-                      // backgroundImage: AssetImage('assets/${locations[index].flag}'),
-                      ),
-                ),
-              ),
+      body: BlocConsumer<JobBloc, JobState>(
+        listener: (context, state) {
+          if (state is JobOperationFailure) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('${state.message}')));
+          }
+        },
+        builder: (context, state) {
+          if (state is JobLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          }),
+          }
+          if (state is JobLoadSuccess) {
+            final jobs = state.jobs;
+            return ListView.builder(
+                itemCount: jobs.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 1.0, horizontal: 4.0),
+                    child: ListTile(
+                      onTap: () {},
+                      title: Text('\nTitle: ' +
+                          jobs[index].title +
+                          '\n'
+                              'Salary: ' +
+                          jobs[index].salary.toString() +
+                          '\n'
+                              'Job Type: ' +
+                          jobs[index].jobType +
+                          '\n'
+                              'Company: ' +
+                          jobs[index].company +
+                          '\n'),
+                      subtitle: Column(
+                        children: <Widget>[
+                          Container(
+                              child: Row(
+                            children: <Widget>[
+                              FlatButton(
+                                color: Colors.amber,
+                                child: Text("Details"),
+                                onPressed: () async {
+                                  final role = await getRole();
+                                  final userId = await prefUser();
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (_) => JobsDetails(
+                                            job: JobModel(
+                                                title: jobs[index].title,
+                                                salary: jobs[index].salary,
+                                                company: jobs[index].company,
+                                                position: jobs[index].position,
+                                                employer: jobs[index].employer,
+                                                jobType: jobs[index].jobType,
+                                                id: jobs[index].id,
+                                                isAcceptingApplication:
+                                                    jobs[index]
+                                                        .isAcceptingApplication,
+                                                description:
+                                                    jobs[index].description),
+                                            userId: userId,
+                                            role: role,
+                                          )));
+                                },
+                              ),
+                              SizedBox(
+                                width: 15,
+                              ),
+                              FlatButton(
+                                color: Colors.red,
+                                child: Text("Delete"),
+                                onPressed: () async {
+                                  BlocProvider.of<JobBloc>(context)
+                                      .add(JobDelete(job: jobs[index]));
+                                },
+                              ),
+                            ],
+                          ))
+                        ],
+                      ),
+                      leading: CircleAvatar(
+                        // backgroundImage: AssetImage('assets/${locations[index].flag}'),
+                        child: Text("A"),
+                      ),
+                    ),
+                  );
+                });
+          }
+          return Container();
+        },
+      ),
     );
   }
 }

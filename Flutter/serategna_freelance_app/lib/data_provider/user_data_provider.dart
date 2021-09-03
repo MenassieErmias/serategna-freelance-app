@@ -95,7 +95,7 @@ class UserDataProvider {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('${response.body}');
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
@@ -120,14 +120,30 @@ class UserDataProvider {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Failed to update user.');
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
-  Future<List<UserModel>> getUsers() async {
+  Future<List<UserModel>> getEmployers() async {
     final token = await pref();
-    final http.Response response =
-        await httpClient.get(Uri.parse('${Constants.baseUrl}/users'), headers: {
+    final http.Response response = await httpClient
+        .get(Uri.parse('${Constants.baseUrl}/users/employers'), headers: {
+      HttpHeaders.authorizationHeader: 'Bearer $token',
+    });
+    if (response.statusCode == 200) {
+      print("employer");
+      final users = jsonDecode(response.body) as List;
+      // print("getusers $users");
+      return users.map((user) => UserModel.fromJson(user)).toList();
+    } else {
+      throw Exception(jsonDecode(response.body)["message"]);
+    }
+  }
+
+  Future<List<UserModel>> getFreelancers() async {
+    final token = await pref();
+    final http.Response response = await httpClient
+        .get(Uri.parse('${Constants.baseUrl}/users/freelancers'), headers: {
       HttpHeaders.authorizationHeader: 'Bearer $token',
     });
     if (response.statusCode == 200) {
@@ -135,7 +151,7 @@ class UserDataProvider {
       // print("getusers $users");
       return users.map((user) => UserModel.fromJson(user)).toList();
     } else {
-      throw Exception('Failed to load posts');
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 

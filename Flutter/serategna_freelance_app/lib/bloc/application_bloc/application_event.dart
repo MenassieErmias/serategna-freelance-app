@@ -26,10 +26,11 @@ class ApplicationCreate extends ApplicationEvent {
 
 class ApplicationUpdate extends ApplicationEvent {
   final ApplicationModel application;
-  const ApplicationUpdate(this.application);
+  final String status;
+  const ApplicationUpdate(this.application, this.status);
 
   @override
-  List<Object> get props => [application];
+  List<Object> get props => [application, status];
 
   @override
   String toString() => 'Application Updated {application: $application}';

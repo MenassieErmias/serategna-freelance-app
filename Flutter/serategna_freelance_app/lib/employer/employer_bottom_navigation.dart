@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:serategna_freelance_app/commons/jobsList.dart';
 import 'package:serategna_freelance_app/commons/profile.dart';
 import 'package:serategna_freelance_app/employer/employer_jobs_list.dart';
 import 'package:serategna_freelance_app/employer/employer_notifications.dart';
@@ -13,7 +14,7 @@ class _EmployerBottomNavigationBarState
     extends State<EmployerBottomNavigationBar> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    EmployerJobsList(),
+    JobsList(),
     Profile(),
     EmployerNotifications(),
   ];

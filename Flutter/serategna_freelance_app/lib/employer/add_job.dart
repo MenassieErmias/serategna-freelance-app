@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
-import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
 import 'package:serategna_freelance_app/models/job_model.dart';
 
 class AddJob extends StatefulWidget {
@@ -17,21 +16,16 @@ class AddJob extends StatefulWidget {
 class _AddJobState extends State<AddJob> {
   final _formKey = GlobalKey<FormState>();
 
-  // form values
-  String _currentName;
-  String _currentBrand;
-  String _currentManufacturingCompany;
-  String _currentPrice;
-  String _currentDescription;
-  String _currentManufactringDate;
-  String _currentExpireDate;
-  String docId;
-
   Map<String, dynamic> jobData = {};
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green[500],
+        centerTitle: true,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
           Padding(
@@ -41,7 +35,7 @@ class _AddJobState extends State<AddJob> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    'Add a new Job.',
+                    widget.createJob ? 'Add a new Job' : 'Edit Job',
                     style: TextStyle(fontSize: 18.0),
                   ),
                   SizedBox(height: 20.0),
@@ -153,9 +147,6 @@ class _AddJobState extends State<AddJob> {
                       onPressed: () {
                         final form = _formKey.currentState;
                         if (form.validate()) {
-                          print(
-                              'title:$_currentName, desciption: $_currentDescription, ');
-
                           form.save();
                           JobModel jobModel = JobModel(
                               id: this.widget.job != null

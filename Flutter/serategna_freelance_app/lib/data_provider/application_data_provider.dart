@@ -133,13 +133,15 @@ class ApplicationDataProvider {
     }
   }
 
-  Future<void> updateApplication(ApplicationModel application) async {
+  Future<void> updateApplication(
+      ApplicationModel application, String status) async {
+    print("update: $application");
     final token = await pref();
     final role = await getRole();
     Map<String, dynamic> body = {};
 
     if (role == "EMPLOYER")
-      body["applicationStatus"] = application.applicationStatus;
+      body["applicationStatus"] = status;
     else
       body["coverLetter"] = application.coverLetter;
 

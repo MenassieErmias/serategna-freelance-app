@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
-import 'package:serategna_freelance_app/bloc/job_bloc/job_bloc.dart';
 import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
 import 'package:serategna_freelance_app/commons/profile_update_form.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:serategna_freelance_app/utils/pref_functions.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -12,15 +10,14 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  Future<void> loadUser() async {
+    final userId = await prefUser();
+    BlocProvider.of<UserBloc>(context).add(LoggedInUser(id: userId));
+  }
+
   @override
   void initState() {
-    // () async {
-    //   SharedPreferences pref = await SharedPreferences.getInstance();
-    //   String userId = pref.getString("id");
-    //   print("userid: $userId");
-    // };
-    BlocProvider.of<UserBloc>(context)
-        .add(LoggedInUser(id: "612d3bf6df31c5b9df781761"));
+    loadUser();
     super.initState();
   }
 

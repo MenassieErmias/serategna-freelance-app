@@ -1,27 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:serategna_freelance_app/freelancer/freelancer_jobs_details.dart';
-import 'package:serategna_freelance_app/models/employer_list.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
 
-class AdminEmployerList extends StatefulWidget {
+class AdminEmployersList extends StatefulWidget {
   @override
-  _AdminEmployerListState createState() => _AdminEmployerListState();
+  _AdminEmployersListState createState() => _AdminEmployersListState();
 }
 
-class _AdminEmployerListState extends State<AdminEmployerList> {
- List<EmployersList> employers = [
-    EmployersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    EmployersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    EmployersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    EmployersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    EmployersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    EmployersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    EmployersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    EmployersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-  ];
-
-  int _currentIndex = 0;
+class _AdminEmployersListState extends State<AdminEmployersList> {
   @override
   void initState() {
+    BlocProvider.of<UserBloc>(context).add(EmployersLoad());
     super.initState();
   }
 
@@ -35,42 +24,66 @@ class _AdminEmployerListState extends State<AdminEmployerList> {
         centerTitle: true,
         elevation: 0,
       ),
-      body:ListView.builder(
-        itemCount: employers.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-            child: Card(
-              child: ListTile(
-                onTap: () {},
-                title: Text('\nName: '+ employers[index].name + '\n'
-                            'Profession: '+employers[index].profession + '\n'
-                            'Phone Number: '+employers[index].phoneNumber + '\n'
-                            'Email: '+employers[index].email + '\n'
-                ),
-                subtitle: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Row(
+      body: BlocConsumer<UserBloc, UserState>(listener: (context, state) {
+        if (state is UserFailureState) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('${state.message}')));
+        }
+      }, builder: (context, state) {
+        if (state is LoadingState) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Colors.indigo,
+            ),
+          );
+        }
+        if (state is UsersLoadSucessState) {
+          final users = state.users;
+          return ListView.builder(
+              itemCount: users.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 1.0, horizontal: 4.0),
+                  child: ListTile(
+                    onTap: () {},
+                    title: Text('\nName: ' +
+                        users[index].fullName +
+                        '\n'
+                            'Profession: ' +
+                        users[index].profession +
+                        '\n'
+                            'Role: ' +
+                        users[index].role +
+                        '\n'
+                            'Phone Number: ' +
+                        users[index].phoneNumber +
+                        '\n'
+                            'Email: ' +
+                        users[index].email +
+                        '\n'),
+                    subtitle: Container(
+                        child: Row(
                       children: <Widget>[
                         FlatButton(
                           color: Colors.red[400],
                           child: Text("Remove"),
-                          onPressed: () {},
+                          onPressed: () {
+                            BlocProvider.of<UserBloc>(context)
+                                .add(EmployerDelete(user: users[index]));
+                          },
                         ),
                       ],
-                    ))
-                  ],
-                ),
-                leading: CircleAvatar(
-                  // backgroundImage: AssetImage('assets/${locations[index].flag}'),
-                ),
-              ),
-            ),
-          );
+                    )),
+                    leading: CircleAvatar(
+                        // backgroundImage: AssetImage('assets/${locations[index].flag}'),
+                        ),
+                  ),
+                );
+              });
         }
-      ),
-     
+        return Container();
+      }),
     );
   }
 }

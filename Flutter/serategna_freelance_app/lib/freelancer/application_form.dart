@@ -97,7 +97,7 @@ class _ApplyState extends State<Apply> {
                             ApplicationEvent event = this.widget.apply
                                 ? ApplicationCreate(
                                     applicationModel, this.widget.jobId)
-                                : ApplicationUpdate(applicationModel);
+                                : ApplicationUpdate(applicationModel, "");
                             BlocProvider.of<ApplicationBloc>(context)
                                 .add(event);
                           }

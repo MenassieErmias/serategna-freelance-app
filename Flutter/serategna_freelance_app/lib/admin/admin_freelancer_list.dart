@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:serategna_freelance_app/models/freelancer_list.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
 
 class AdminFreelancersList extends StatefulWidget {
   @override
@@ -7,20 +8,9 @@ class AdminFreelancersList extends StatefulWidget {
 }
 
 class _AdminFreelancersListState extends State<AdminFreelancersList> {
- List<FreelancersList> freelancers = [
-    FreelancersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    FreelancersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    FreelancersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    FreelancersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    FreelancersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    FreelancersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    FreelancersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-    FreelancersList(name: 'Abebe Beso', profession: 'Graphic Designer', phoneNumber: '0912457856', email: 'abebe@beso.com'),
-  ];
-
-  int _currentIndex = 0;
   @override
   void initState() {
+    BlocProvider.of<UserBloc>(context).add(FreelancersLoad());
     super.initState();
   }
 
@@ -34,42 +24,66 @@ class _AdminFreelancersListState extends State<AdminFreelancersList> {
         centerTitle: true,
         elevation: 0,
       ),
-      body:ListView.builder(
-        itemCount: freelancers.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-            child: Card(
-              child: ListTile(
-                onTap: () {},
-                title: Text('\nName: '+ freelancers[index].name + '\n'
-                            'Profession: '+freelancers[index].profession + '\n'
-                            'Phone Number: '+freelancers[index].phoneNumber + '\n'
-                            'Email: '+freelancers[index].email + '\n'
-                ),
-                subtitle: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Row(
+      body: BlocConsumer<UserBloc, UserState>(listener: (context, state) {
+        if (state is UserFailureState) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('${state.message}')));
+        }
+      }, builder: (context, state) {
+        if (state is LoadingState) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Colors.indigo,
+            ),
+          );
+        }
+        if (state is UsersLoadSucessState) {
+          final users = state.users;
+          return ListView.builder(
+              itemCount: users.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 1.0, horizontal: 4.0),
+                  child: ListTile(
+                    onTap: () {},
+                    title: Text('\nName: ' +
+                        users[index].fullName +
+                        '\n'
+                            'Profession: ' +
+                        users[index].profession +
+                        '\n'
+                            'Role: ' +
+                        users[index].role +
+                        '\n'
+                            'Phone Number: ' +
+                        users[index].phoneNumber +
+                        '\n'
+                            'Email: ' +
+                        users[index].email +
+                        '\n'),
+                    subtitle: Container(
+                        child: Row(
                       children: <Widget>[
                         FlatButton(
                           color: Colors.red[400],
                           child: Text("Remove"),
-                          onPressed: () {},
+                          onPressed: () {
+                            BlocProvider.of<UserBloc>(context)
+                                .add(FreelancerDelete(user: users[index]));
+                          },
                         ),
                       ],
-                    ))
-                  ],
-                ),
-                leading: CircleAvatar(
-                  // backgroundImage: AssetImage('assets/${locations[index].flag}'),
-                ),
-              ),
-            ),
-          );
+                    )),
+                    leading: CircleAvatar(
+                        // backgroundImage: AssetImage('assets/${locations[index].flag}'),
+                        ),
+                  ),
+                );
+              });
         }
-      ),
-     
+        return Container();
+      }),
     );
   }
 }

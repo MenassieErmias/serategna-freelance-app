@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
 import 'package:serategna_freelance_app/data_provider/application_data_provider.dart';
 import 'package:serategna_freelance_app/models/application_model.dart';
@@ -15,8 +16,9 @@ class ApplicationRepo {
     return applicationDataProvider.createApplication(application, jobId);
   }
 
-  Future<void> updateApplication(ApplicationModel application) async {
-    return applicationDataProvider.updateApplication(application);
+  Future<void> updateApplication(
+      ApplicationModel application, String status) async {
+    return applicationDataProvider.updateApplication(application, status);
   }
 
   Future<void> deleteApplication(String id) async {
