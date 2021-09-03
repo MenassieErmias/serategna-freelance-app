@@ -136,12 +136,12 @@ class ApplicationDataProvider {
   Future<void> updateApplication(ApplicationModel application) async {
     final token = await pref();
     final role = await getRole();
-    Map<String, dynamic> body = {
-      "coverLetter": application.coverLetter,
-    };
+    Map<String, dynamic> body = {};
 
     if (role == "EMPLOYER")
       body["applicationStatus"] = application.applicationStatus;
+    else
+      body["coverLetter"] = application.coverLetter;
 
     print("application id ${application.id == null ? application.id : null}");
     final http.Response response = await httpClient.put(
