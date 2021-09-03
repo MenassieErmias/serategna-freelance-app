@@ -18,21 +18,17 @@ class Apply extends StatefulWidget {
 class _ApplyState extends State<Apply> {
   final _formKey = GlobalKey<FormState>();
 
-  // form values
-  String _currentName;
-  String _currentBrand;
-  String _currentManufacturingCompany;
-  String _currentPrice;
-  String _currentDescription;
-  String _currentManufactringDate;
-  String _currentExpireDate;
-  String docId;
-
   Map<String, dynamic> applicationData = {};
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text('Details'),
+        centerTitle: true,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         child: Column(children: <Widget>[
           Padding(

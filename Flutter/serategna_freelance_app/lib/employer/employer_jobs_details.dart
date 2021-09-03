@@ -140,7 +140,7 @@ class _EmployerJobsDetailsState extends State<EmployerJobsDetails> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
-            title: Text('Favourites'),
+            title: Text('Favorites'),
             backgroundColor: Colors.blue,
           ),
         ],

@@ -18,6 +18,14 @@ class JobLoadSuccess extends JobState {
   List<Object> get props => [jobs];
 }
 
+class JobByIdLoadSuccess extends JobState {
+  final JobModel job;
+  JobByIdLoadSuccess({this.job});
+  List<Object> get props => [job];
+  @override
+  String toString() => 'Loaded job $job';
+}
+
 class JobOperationFailure extends JobState {
   final String message;
   JobOperationFailure({this.message});

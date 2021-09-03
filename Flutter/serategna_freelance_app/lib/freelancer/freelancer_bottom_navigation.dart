@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:serategna_freelance_app/commons/profile.dart';
-import 'package:serategna_freelance_app/freelancer/freelancer_favourites.dart';
+import 'package:serategna_freelance_app/freelancer/freelancer_favorites.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_jobs_list.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_notifications.dart';
 
@@ -17,7 +17,7 @@ class _FreelancerBottomNavigationBarState
     FreelancerJobsList(),
     Profile(),
     FreelancerNotifications(),
-    FreelancerFavourites(),
+    FreelancerFavorites(),
   ];
   void onTapBar(int index) {
     setState(() {
@@ -51,7 +51,7 @@ class _FreelancerBottomNavigationBarState
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
-            title: Text('Favourites'),
+            title: Text('Favorites'),
             backgroundColor: Colors.purple,
           )
         ],

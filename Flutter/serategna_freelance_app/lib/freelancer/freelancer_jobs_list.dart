@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/auth/login_screen.dart';
+import 'package:serategna_freelance_app/bloc/favorite_bloc/bloc.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_jobs_details.dart';
-import 'package:serategna_freelance_app/models/jobs_list.dart';
+import 'package:serategna_freelance_app/models/job_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FreelancerJobsList extends StatefulWidget {
@@ -13,60 +14,9 @@ class FreelancerJobsList extends StatefulWidget {
 }
 
 class _FreelancerJobsListState extends State<FreelancerJobsList> {
-  List<JobsList> jobs = [
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-  ];
-
-  int _currentIndex = 0;
   @override
   void initState() {
+    BlocProvider.of<JobBloc>(context).add(JobLoad());
     super.initState();
   }
 
@@ -143,17 +93,29 @@ class _FreelancerJobsListState extends State<FreelancerJobsList> {
                                         MaterialPageRoute(
                                             builder: (_) =>
                                                 FreelancerJobsDetails(
-                                                  job: jobs[index],
+                                                  job: JobModel(
+                                                      title: jobs[index].title,
+                                                      salary:
+                                                          jobs[index].salary,
+                                                      company:
+                                                          jobs[index].company,
+                                                      position:
+                                                          jobs[index].position,
+                                                      employer:
+                                                          jobs[index].employer,
+                                                      jobType:
+                                                          jobs[index].jobType,
+                                                      id: jobs[index].id,
+                                                      isAcceptingApplication: jobs[
+                                                              index]
+                                                          .isAcceptingApplication,
+                                                      description: jobs[index]
+                                                          .description),
                                                 )));
                                   },
                                 ),
                                 SizedBox(
                                   width: 15,
-                                ),
-                                FlatButton(
-                                  color: Colors.lime,
-                                  child: Text("Favourite"),
-                                  onPressed: () {},
                                 ),
                               ],
                             ))

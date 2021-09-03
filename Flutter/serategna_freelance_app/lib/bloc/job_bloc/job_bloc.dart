@@ -42,6 +42,14 @@ class JobBloc extends Bloc<JobEvent, JobState> {
         yield JobOperationFailure(message: "$e");
       }
     }
+    if (event is JobDetail) {
+      try {
+        final job = await jobRepo.getJobByID(event.id);
+        yield JobByIdLoadSuccess(job: job);
+      } catch (e) {
+        yield JobOperationFailure(message: "$e");
+      }
+    }
     if (event is JobDelete) {
       try {
         await jobRepo.deleteJob(event.job.id);

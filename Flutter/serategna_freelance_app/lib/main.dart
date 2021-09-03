@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/bloc/application_bloc/bloc.dart';
+import 'package:serategna_freelance_app/bloc/favorite_bloc/bloc.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
 import 'package:serategna_freelance_app/commons/splash_screen.dart';
 import 'package:serategna_freelance_app/data_provider/application_data_provider.dart';
+import 'package:serategna_freelance_app/data_provider/favorite_data_provider.dart';
 import 'package:serategna_freelance_app/data_provider/job_data_provider.dart';
 import 'package:serategna_freelance_app/data_provider/user_data_provider.dart';
 import 'package:serategna_freelance_app/repository/application_repo.dart';
+import 'package:serategna_freelance_app/repository/favorite_repo.dart';
 import 'package:serategna_freelance_app/repository/job_repo.dart';
 import 'package:serategna_freelance_app/repository/user_repo.dart';
 import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
@@ -20,21 +23,25 @@ void main() {
   final ApplicationRepo applicationRepo = ApplicationRepo(
       applicationDataProvider:
           ApplicationDataProvider(httpClient: http.Client()));
+  final FavoriteRepo favoriteRepo = FavoriteRepo(
+      favoriteDataProvider: FavoriteDataProvider(httpClient: http.Client()));
   runApp(MyApp(
-    userRepo: userRepo,
-    jobRepo: jobRepo,
-    applicationRepo: applicationRepo,
-  ));
+      userRepo: userRepo,
+      jobRepo: jobRepo,
+      applicationRepo: applicationRepo,
+      favoriteRepo: favoriteRepo));
 }
 
 class MyApp extends StatelessWidget {
   MyApp(
       {@required this.userRepo,
       @required this.jobRepo,
-      @required this.applicationRepo});
+      @required this.applicationRepo,
+      @required this.favoriteRepo});
   final UserRepo userRepo;
   final JobRepo jobRepo;
   final ApplicationRepo applicationRepo;
+  final FavoriteRepo favoriteRepo;
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
@@ -43,6 +50,7 @@ class MyApp extends StatelessWidget {
           RepositoryProvider<JobRepo>(create: (context) => jobRepo),
           RepositoryProvider<ApplicationRepo>(
               create: (context) => applicationRepo),
+          RepositoryProvider<FavoriteRepo>(create: (context) => favoriteRepo)
         ],
         child: MultiBlocProvider(
           providers: [
@@ -55,6 +63,9 @@ class MyApp extends StatelessWidget {
                 create: (context) =>
                     ApplicationBloc(applicationRepo: applicationRepo)
                       ..add(ApplicationLoad())),
+            BlocProvider(
+                create: (context) => FavoriteBloc(favoriteRepo: favoriteRepo)
+                  ..add(FavoriteLoad())),
           ],
           child: MaterialApp(
             title: 'Flutter Demo',

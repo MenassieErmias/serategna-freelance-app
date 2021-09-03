@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:serategna_freelance_app/constants/constants.dart';
-import 'package:serategna_freelance_app/models/favourite_model.dart';
+import 'package:serategna_freelance_app/models/favorite_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class FavouriteDataProvider {
+class FavoriteDataProvider {
   final http.Client httpClient;
 
-  FavouriteDataProvider({@required this.httpClient});
+  FavoriteDataProvider({@required this.httpClient});
 
   Future<String> pref() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -17,50 +17,46 @@ class FavouriteDataProvider {
     return token;
   }
 
-  Future<FavouriteModel> AddToFavourites(
-      FavouriteModel favourite, String jobId) async {
+  Future<void> addToFavorites(String jobId) async {
     final token = await pref();
+    print("jobid from addtofav: $jobId");
     final response = await httpClient.post(
-      Uri.http('192.168.1.103:5000', '/favourites'),
+      Uri.http('192.168.1.103:5000', '/favorites'),
       headers: <String, String>{
-        HttpHeaders.contentTypeHeader: 'favourite/json; charset=UTF-8',
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token'
       },
-      body: jsonEncode(<String, dynamic>{
-        "jobId": jobId,
-      }),
+      body: jsonEncode(<String, dynamic>{"jobId": jobId}),
     );
 
-    if (response.statusCode == 201) {
-      return FavouriteModel.fromJson(jsonDecode(response.body));
-    } else
+    if (response.statusCode != 201) {
       throw Exception(jsonDecode(response.body)["message"]);
+    }
   }
 
-  Future<List<FavouriteModel>> getFavourites() async {
+  Future<List<FavoriteModel>> getFavorites() async {
     final token = await pref();
     final http.Response response = await httpClient
-        .get(Uri.parse('${Constants.baseUrl}/favourites'), headers: {
-      HttpHeaders.contentTypeHeader: 'favourite/json; charset=UTF-8',
+        .get(Uri.parse('${Constants.baseUrl}/favorites'), headers: {
+      HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
       HttpHeaders.authorizationHeader: 'Bearer $token',
     });
     if (response.statusCode == 200) {
-      final favourites = jsonDecode(response.body) as List;
-      // print("getfavourites $favourites");
-      return favourites
-          .map((favourite) => FavouriteModel.fromJson(favourite))
+      final favorites = jsonDecode(response.body) as List;
+      return favorites
+          .map((favorite) => FavoriteModel.fromJson(favorite))
           .toList();
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
-  Future<void> removeFromFavourites(String id) async {
+  Future<void> removeFromFavorites(String id) async {
     final token = await pref();
     final response = await httpClient.delete(
-      Uri.parse('${Constants.baseUrl}/favourites/$id'),
+      Uri.parse('${Constants.baseUrl}/favorites/$id'),
       headers: <String, String>{
-        HttpHeaders.contentTypeHeader: 'favourite/json; charset=UTF-8',
+        HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token'
       },
     );

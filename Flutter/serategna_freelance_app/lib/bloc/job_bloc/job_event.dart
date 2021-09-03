@@ -34,6 +34,17 @@ class JobUpdate extends JobEvent {
   String toString() => 'Job Updated {job: $job}';
 }
 
+class JobDetail extends JobEvent {
+  final String id;
+
+  JobDetail(this.id);
+  @override
+  List<Object> get props => [id];
+
+  @override
+  toString() => 'Job Detail';
+}
+
 class JobDelete extends JobEvent {
   final JobModel job;
   const JobDelete({this.job});
