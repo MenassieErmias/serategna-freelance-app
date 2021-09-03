@@ -27,7 +27,6 @@ class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationState> {
         await applicationRepo.createApplication(event.application, event.jobId);
         final applications = await applicationRepo.getApplications();
         yield ApplicationLoadSuccess(applications);
-        // yield ApplicationLoadSuccess(applications);
       } catch (e) {
         yield ApplicationOperationFailure(message: "$e");
       }

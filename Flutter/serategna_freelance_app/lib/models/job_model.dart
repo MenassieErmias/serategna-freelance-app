@@ -35,6 +35,7 @@ class JobModel extends Equatable {
         title: json['title'],
         description: json['description'],
         company: json['company'],
+        employer: json['employer'],
         salary: json['salary'],
         jobType: json['jobType'],
         isAcceptingApplication: json['isAcceptingApplication'],
