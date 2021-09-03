@@ -35,7 +35,7 @@ class JobDataProvider {
     final token = await pref();
     final userId = await prefUser();
     final response = await httpClient.post(
-      Uri.http('192.168.1.100:5000', '/jobs'),
+      Uri.http('192.168.1.103:5000', '/jobs'),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token'

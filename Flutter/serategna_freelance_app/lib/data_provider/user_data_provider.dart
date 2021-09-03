@@ -20,7 +20,7 @@ class UserDataProvider {
 
   Future<UserModel> loginUser(UserModel user) async {
     final response = await httpClient.post(
-      Uri.http('192.168.1.100:5000', '/users/login'),
+      Uri.http('192.168.1.103:5000', '/users/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -36,7 +36,7 @@ class UserDataProvider {
 
   Future<UserModel> registerUser(UserModel user) async {
     final response = await httpClient.post(
-      Uri.http('192.168.1.100:5000', '/users'),
+      Uri.http('192.168.1.103:5000', '/users'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

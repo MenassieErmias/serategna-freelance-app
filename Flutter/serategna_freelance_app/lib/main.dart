@@ -5,6 +5,7 @@ import 'package:serategna_freelance_app/admin/admin_employer_list.dart';
 import 'package:serategna_freelance_app/admin/admin_freelancer_list.dart';
 import 'package:serategna_freelance_app/admin/admin_jobs_list.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
+import 'package:serategna_freelance_app/commons/splash_screen.dart';
 import 'package:serategna_freelance_app/data_provider/job_data_provider.dart';
 import 'package:serategna_freelance_app/data_provider/user_data_provider.dart';
 import 'package:serategna_freelance_app/employer/add_job.dart';
@@ -71,7 +72,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.blue,
               visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
-            home: LoginPage(),
+            home: SplashScreen(),
           ),
         ));
   }
