@@ -46,99 +46,19 @@ class _EmployerJobsListState extends State<EmployerJobsList> {
               icon: Icon(Icons.logout_outlined))
         ],
       ),
-      body: BlocConsumer<JobBloc, JobState>(
-        listener: (context, state) {
-          if (state is JobOperationFailure) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text('${state.message}')));
-          }
-        },
-        builder: (context, state) {
-          if (state is JobLoading) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (state is JobLoadSuccess) {
-            final jobs = state.jobs;
-            return ListView.builder(
-                itemCount: jobs.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 1.0, horizontal: 4.0),
-                    child: Slidable(
-                      actionPane: SlidableDrawerActionPane(),
-                      actionExtentRatio: 0.25,
-                      child: ListTile(
-                        onTap: () async {
-                          final role = await getRole();
-                          final userId = await prefUser();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => JobsDetails(
-                                    userId: userId,
-                                    role: role,
-                                    job: JobModel(
-                                        title: jobs[index].title,
-                                        salary: jobs[index].salary,
-                                        company: jobs[index].company,
-                                        position: jobs[index].position,
-                                        employer: jobs[index].employer,
-                                        jobType: jobs[index].jobType,
-                                        id: jobs[index].id,
-                                        isAcceptingApplication:
-                                            jobs[index].isAcceptingApplication,
-                                        description: jobs[index].description)),
-                              ));
-                        },
-                        title: Text(
-                            jobs[index].title != null ? jobs[index].title : ""),
-                        subtitle: Text(jobs[index].description != null
-                            ? jobs[index].description
-                            : ""),
-                        leading: CircleAvatar(
-                          // backgroundImage: AssetImage('assets/${locations[index].flag}'),
-                          child: Text("A"),
-                        ),
-                      ),
-                      secondaryActions: [
-                        IconSlideAction(
-                          caption: 'Delete',
-                          color: Colors.red,
-                          icon: Icons.delete,
-                          onTap: () => BlocProvider.of<JobBloc>(context)
-                              .add(JobDelete(job: jobs[index])),
-                        ),
-                        IconSlideAction(
-                          caption: 'Update',
-                          color: Colors.grey,
-                          icon: Icons.delete,
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BlocProvider.value(
-                                          value:
-                                              BlocProvider.of<JobBloc>(context),
-                                          child: AddJob(
-                                            createJob: false,
-                                            job: jobs[index],
-                                          ),
-                                        )));
-                          },
-                        )
-                      ],
-                    ),
-                  );
-                });
-          }
-          return Container();
-        },
+      body: Container(
+        child: IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => AddJob(
+                      createJob: true,
+                    )));
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.red,
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => AddJob(

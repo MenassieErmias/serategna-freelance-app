@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
+import 'package:serategna_freelance_app/commons/users_list.dart';
 
 class AdminEmployersList extends StatefulWidget {
   @override
@@ -47,21 +48,31 @@ class _AdminEmployersListState extends State<AdminEmployersList> {
                       vertical: 1.0, horizontal: 4.0),
                   child: ListTile(
                     onTap: () {},
-                    title: Text('\nName: ' +
-                        users[index].fullName +
-                        '\n'
-                            'Profession: ' +
-                        users[index].profession +
-                        '\n'
-                            'Role: ' +
-                        users[index].role +
-                        '\n'
-                            'Phone Number: ' +
-                        users[index].phoneNumber +
-                        '\n'
-                            'Email: ' +
-                        users[index].email +
-                        '\n'),
+                    title: Column(
+                      children: [
+                        UsersList(
+                          text: "Name:  ",
+                          value: users[index].fullName,
+                        ),
+                        UsersList(
+                          text: "Email:  ",
+                          value: users[index].email,
+                        ),
+                        UsersList(
+                            text: "Profession:  ",
+                            value: users[index].profession != null
+                                ? users[index].profession
+                                : ""),
+                        UsersList(
+                          text: "Role:  ",
+                          value: users[index].role.toLowerCase(),
+                        ),
+                        UsersList(
+                          text: "Phone Number:  ",
+                          value: users[index].phoneNumber,
+                        ),
+                      ],
+                    ),
                     subtitle: Container(
                         child: Row(
                       children: <Widget>[

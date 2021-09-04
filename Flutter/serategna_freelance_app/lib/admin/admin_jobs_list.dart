@@ -1,71 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:serategna_freelance_app/admin/admin_jobs_details.dart';
+import 'package:serategna_freelance_app/auth/login_screen.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
 import 'package:serategna_freelance_app/commons/jobDetail.dart';
 import 'package:serategna_freelance_app/models/job_model.dart';
-import 'package:serategna_freelance_app/models/jobs_list.dart';
 import 'package:serategna_freelance_app/utils/pref_functions.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminJobsList extends StatefulWidget {
-  static const routeName = '/adminJobList';
   @override
   _AdminJobsListState createState() => _AdminJobsListState();
 }
 
 class _AdminJobsListState extends State<AdminJobsList> {
-  List<JobsList> jobs = [
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-    JobsList(
-        titles: 'Graphics Designer',
-        salary: '2000',
-        jobType: 'Permanent',
-        datePosted: '10/4/21',
-        company: 'AZ Media'),
-  ];
-
-  int _currentIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -80,6 +27,20 @@ class _AdminJobsListState extends State<AdminJobsList> {
         title: Text('Jobs'),
         centerTitle: true,
         elevation: 0,
+        actions: [
+          IconButton(
+              onPressed: () async {
+                SharedPreferences pref = await SharedPreferences.getInstance();
+                pref.remove("token");
+                pref.remove("role");
+                pref.remove("id");
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                    (route) => false);
+              },
+              icon: Icon(Icons.logout_outlined))
+        ],
       ),
       body: BlocConsumer<JobBloc, JobState>(
         listener: (context, state) {

@@ -134,78 +134,88 @@ class _JobsDetailsState extends State<JobsDetails> {
                             ),
                           ),
                         ])
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Container(
-                          child: ElevatedButton(
-                            style: ButtonStyle(
-                                fixedSize: MaterialStateProperty.all(Size(
-                                    MediaQuery.of(context).size.width / 1.5,
-                                    MediaQuery.of(context).size.height / 17)),
-                                padding: MaterialStateProperty.all(
-                                    EdgeInsets.symmetric(
-                                        horizontal: 50, vertical: 15))),
-                            child: Text("Apply"),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Apply(
-                                          apply: true, jobId: widget.job.id)));
-                            },
-                          ),
-                        ),
-                        BlocConsumer<FavoriteBloc, FavoriteState>(
-                          listener: (context, state) {
-                            if (state is FavoriteOperationFailure) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('${state.message}')));
-                            }
-                          },
-                          builder: (context, state) {
-                            if (state is FavoriteLoadSuccess) {
-                              final favorites = state.favorites;
-                              bool isFavorited = false;
-                              favorites.forEach((element) {
-                                if (element.job["_id"] == widget.job.id) {
-                                  isFavorited = true;
-                                  return;
+                  : widget.role == "ADMIN"
+                      ? SizedBox()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              child: ElevatedButton(
+                                style: ButtonStyle(
+                                    fixedSize: MaterialStateProperty.all(Size(
+                                        MediaQuery.of(context).size.width / 1.5,
+                                        MediaQuery.of(context).size.height /
+                                            17)),
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.symmetric(
+                                            horizontal: 50, vertical: 15))),
+                                child: Text("Apply"),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Apply(
+                                              apply: true,
+                                              jobId: widget.job.id)));
+                                },
+                              ),
+                            ),
+                            BlocConsumer<FavoriteBloc, FavoriteState>(
+                              listener: (context, state) {
+                                if (state is FavoriteOperationFailure) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text('${state.message}')));
                                 }
-                              });
-                              return Container(
-                                width: MediaQuery.of(context).size.width / 4,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey, shape: BoxShape.circle),
-                                child: IconButton(
-                                    onPressed: () {
-                                      isFavorited
-                                          ? ""
-                                          : BlocProvider.of<FavoriteBloc>(
-                                                  context)
-                                              .add(AddFavorite(widget.job.id));
-                                    },
-                                    icon: Icon(
-                                      isFavorited
-                                          ? Icons.favorite
-                                          : Icons.favorite_outline,
-                                      color: isFavorited
-                                          ? Colors.red
-                                          : Colors.black,
-                                    )),
-                              );
-                            }
-                            return Container(
-                                width: MediaQuery.of(context).size.width / 4,
-                                decoration: BoxDecoration(
-                                    color: Colors.grey, shape: BoxShape.circle),
-                                child: IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.favorite_outline)));
-                          },
+                              },
+                              builder: (context, state) {
+                                if (state is FavoriteLoadSuccess) {
+                                  final favorites = state.favorites;
+                                  bool isFavorited = false;
+                                  favorites.forEach((element) {
+                                    if (element.job["_id"] == widget.job.id) {
+                                      isFavorited = true;
+                                      return;
+                                    }
+                                  });
+                                  return Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 4,
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey,
+                                        shape: BoxShape.circle),
+                                    child: IconButton(
+                                        onPressed: () {
+                                          isFavorited
+                                              ? ""
+                                              : BlocProvider.of<FavoriteBloc>(
+                                                      context)
+                                                  .add(AddFavorite(
+                                                      widget.job.id));
+                                        },
+                                        icon: Icon(
+                                          isFavorited
+                                              ? Icons.favorite
+                                              : Icons.favorite_outline,
+                                          color: isFavorited
+                                              ? Colors.red
+                                              : Colors.black,
+                                        )),
+                                  );
+                                }
+                                return Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 4,
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey,
+                                        shape: BoxShape.circle),
+                                    child: IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.favorite_outline)));
+                              },
+                            )
+                          ],
                         )
-                      ],
-                    )
             ],
           ),
         ));

@@ -12,6 +12,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   Future<void> loadUser() async {
     final userId = await prefUser();
+    print("user id is: $userId");
     BlocProvider.of<UserBloc>(context).add(LoggedInUser(id: userId));
   }
 
@@ -24,15 +25,14 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
-      appBar: AppBar(
-        backgroundColor: Colors.green[500],
-        title: Text('Profile'),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: BlocBuilder<UserBloc, UserState>(
-        builder: (context, state) {
+        backgroundColor: Colors.grey[200],
+        appBar: AppBar(
+          backgroundColor: Colors.green[500],
+          title: Text('Profile'),
+          centerTitle: true,
+          elevation: 0,
+        ),
+        body: BlocConsumer<UserBloc, UserState>(builder: (context, state) {
           if (state is LoadingState) {
             return Center(child: CircularProgressIndicator());
           }
@@ -42,20 +42,22 @@ class _ProfileState extends State<Profile> {
             return ListTile(
               onTap: () {},
               title: Text('\nName: ' +
-                  user.fullName +
-                  '\n'
-                      'Role: ' +
-                  user.role +
-                  '\n'
-                      'Phone Number: ' +
-                  user.phoneNumber +
-                  '\n'
-                      'email: ' +
-                  user.email +
-                  '\n' +
-                  'profession: ' +
-                  user.profession +
-                  '\n'),
+                          user.fullName +
+                          '\n'
+                              'Role: ' +
+                          user.role +
+                          '\n'
+                              'Phone Number: ' +
+                          user.phoneNumber +
+                          '\n'
+                              'email: ' +
+                          user.email +
+                          '\n' +
+                          'profession: ' +
+                          user.profession !=
+                      null
+                  ? user.profession
+                  : "" + '\n'),
               subtitle: Column(
                 children: <Widget>[
                   Container(
@@ -83,8 +85,11 @@ class _ProfileState extends State<Profile> {
             );
           }
           return Container();
-        },
-      ),
-    );
+        }, listener: (context, state) {
+          if (state is UserFailureState) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('${state.message}')));
+          }
+        }));
   }
 }

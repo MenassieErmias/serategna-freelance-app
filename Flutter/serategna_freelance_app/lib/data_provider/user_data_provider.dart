@@ -20,7 +20,7 @@ class UserDataProvider {
 
   Future<UserModel> loginUser(UserModel user) async {
     final response = await httpClient.post(
-      Uri.http('192.168.1.103:5000', '/users/login'),
+      Uri.http('10.6.207.27:5000', '/users/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -28,15 +28,16 @@ class UserDataProvider {
           <String, dynamic>{"email": user.email, "password": user.password}),
     );
 
-    if (response.statusCode == 200)
+    if (response.statusCode == 200) {
+      print("on login ${jsonDecode(response.body)}");
       return UserModel.fromJson(jsonDecode(response.body));
-    else
+    } else
       throw Exception(jsonDecode(response.body)["message"]);
   }
 
   Future<UserModel> registerUser(UserModel user) async {
     final response = await httpClient.post(
-      Uri.http('192.168.1.103:5000', '/users'),
+      Uri.http('10.6.207.27:5000', '/users'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -65,8 +66,8 @@ class UserDataProvider {
         HttpHeaders.authorizationHeader: 'Bearer $token'
       },
     );
-    if (response.statusCode != 204) {
-      throw Exception("error deleting user");
+    if (response.statusCode != 200) {
+      throw Exception(jsonDecode(response.body)["message"]);
     }
   }
 
@@ -148,7 +149,7 @@ class UserDataProvider {
     });
     if (response.statusCode == 200) {
       final users = jsonDecode(response.body) as List;
-      // print("getusers $users");
+      print("getusers $users");
       return users.map((user) => UserModel.fromJson(user)).toList();
     } else {
       throw Exception(jsonDecode(response.body)["message"]);
@@ -156,6 +157,7 @@ class UserDataProvider {
   }
 
   Future<UserModel> getUserByID(String id) async {
+    print(id);
     final token = await pref();
     final http.Response response = await httpClient
         .get(Uri.parse('${Constants.baseUrl}/users/$id'), headers: {

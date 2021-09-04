@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/repository/user_repo.dart';
@@ -83,7 +85,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield LoadingState();
       try {
         await userRepo.deleteUser(event.user.id);
-        final users = await userRepo.getEmployers();
+        final users = await userRepo.getFreelancers();
         yield UsersLoadSucessState(users);
       } catch (e) {
         yield UserFailureState(message: '${e}');
@@ -92,8 +94,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     if (event is EmployerDelete) {
       yield LoadingState();
       try {
+        print("user id in employerdelete ${event.user.id}");
         await userRepo.deleteUser(event.user.id);
-        final users = await userRepo.getFreelancers();
+        final users = await userRepo.getEmployers();
         yield UsersLoadSucessState(users);
       } catch (e) {
         yield UserFailureState(message: '${e}');

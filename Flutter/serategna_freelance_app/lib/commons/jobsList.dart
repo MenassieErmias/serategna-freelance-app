@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/auth/login_screen.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
 import 'package:serategna_freelance_app/commons/jobDetail.dart';
+import 'package:serategna_freelance_app/employer/add_job.dart';
+import 'package:serategna_freelance_app/employer/edit_job.dart';
 import 'package:serategna_freelance_app/models/job_model.dart';
 import 'package:serategna_freelance_app/utils/pref_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -139,7 +141,18 @@ class _JobsListState extends State<JobsList> {
           }
           return Container();
         },
+        
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red,
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => AddJob(createJob: true,));
+        },
+        tooltip: 'Add Job',
+        child: Icon(Icons.add),
+      ),
+    );
     );
   }
 }
