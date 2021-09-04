@@ -95,7 +95,7 @@ class _LoginPage extends State<LoginPage>{
               gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                   colors: [Colors.lightBlue,Colors.cyan]
+                   colors: [Colors.lightBlue,Colors.purple]
                   )),
           width: double.infinity,
           height: isKeyboardShowing
@@ -240,7 +240,7 @@ class _LoginPage extends State<LoginPage>{
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-              colors: [Colors.green, Colors.cyan]
+              colors: [Colors.blue, Colors.purple]
             )),
         child: Text('Login Freelancer',
             style: TextStyle(color: Colors.white, fontSize: 18.0)),
@@ -269,7 +269,7 @@ class _LoginPage extends State<LoginPage>{
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-              colors: [Colors.green, Colors.cyan]
+              colors: [Colors.blue, Colors.purple]
             )),
         child: Text('Login Employer (For Testing)',
             style: TextStyle(color: Colors.white, fontSize: 18.0)),
@@ -297,7 +297,7 @@ class _LoginPage extends State<LoginPage>{
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-              colors: [Colors.green, Colors.cyan]
+              colors: [Colors.blue, Colors.purple]
             )),
         child: Text('Login Admin (For Testing)',
             style: TextStyle(color: Colors.white, fontSize: 18.0)),
