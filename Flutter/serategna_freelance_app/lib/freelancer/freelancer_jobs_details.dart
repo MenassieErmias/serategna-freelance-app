@@ -26,47 +26,52 @@ class _FreelancerJobsDetailsState extends State<FreelancerJobsDetails> {
       body: ListView.builder(
         itemCount: jobs.length,
         itemBuilder: (context, index) {
-    return new Container(
-      child: Card(
-        child: InkWell(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 4.0),
-                  child: Row(children: <Widget>[
-                    CircleAvatar(
-                      radius: 25.0,
-                      backgroundColor: Colors.cyan[100],
-                    ),
-                    Text(
-                      "\t\t\t\t" + jobs[index].titles.toUpperCase() + "\n\n\t\t\t\t" + jobs[index].salary + "\t\t\t\t" + jobs[index].company
-                    ),
-                    Spacer(),
-                  ]),
-                ),
-              ],
+        return new Container(
+          child: Card( 
+            child: ListTile(
+              onTap: () {},
+              title: Text('\nTitle: '+ jobs[index].titles + '\n'
+                          'Salary: '+jobs[index].salary + '\n'
+                          'Job Type: '+jobs[index].jobType + '\n'
+                          'Date Posted: '+jobs[index].datePosted + '\n'
+                          'Company: '+jobs[index].company + '\n'
+                          'Job Type: '+jobs[index].jobType + '\n'
+                          'Date Posted: '+jobs[index].datePosted + '\n'
+                          'Company: '+jobs[index].company + '\n'
+                          'Job Type: '+jobs[index].jobType + '\n'
+                          'Date Posted: '+jobs[index].datePosted + '\n'
+                          'Company: '+jobs[index].company + '\n'
+                          'Job Type: '+jobs[index].jobType + '\n'
+                          'Date Posted: '+jobs[index].datePosted + '\n'
+                          'Company: '+jobs[index].company + '\n'
+                          'Job Type: '+jobs[index].jobType + '\n'
+                          'Date Posted: '+jobs[index].datePosted + '\n'
+                          'Company: '+jobs[index].company + '\n'
+                          'Job Type: '+jobs[index].jobType + '\n'
+                          'Date Posted: '+jobs[index].datePosted + '\n'
+                          'Company: '+jobs[index].company + '\n'
+                          'Job Type: '+jobs[index].jobType + '\n'
+                          'Date Posted: '+jobs[index].datePosted + '\n'
+                          'Company: '+jobs[index].company + '\n'
+              ),
+              subtitle: Column(
+                children: <Widget>[
+                  Container(
+                    child: Row(
+                    children: <Widget>[
+                      FlatButton(
+                        color: Colors.purple[300],
+                        child: Text("Apply"),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ))
+                ],
+              ),
+              leading: CircleAvatar(
+                // backgroundImage: AssetImage('assets/${locations[index].flag}'),
+              ),
             ),
-          ),
-          onLongPress: (){
-              showDialog(context: context, child:
-                new AlertDialog(
-                  title: new Text("Do you want to delete this item?"),
-                  actions: [
-                    FlatButton(
-                      onPressed: (){}, 
-                      child: Text("Yes")
-                    ),
-                    FlatButton(
-                      onPressed: (){ Navigator.pop(context); }, 
-                      child: Text("No")
-                    ),
-                  ],
-                )
-              );
-            }
-        ),
       ),
     );
   }),
