@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:serategna_freelance_app/auth/sign_up_screen.dart';
 import 'package:serategna_freelance_app/commons/loading.dart';
+import 'package:serategna_freelance_app/freelancer/freelancer_bottom_navigation.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_jobs_list.dart';
 
 class LoginPage extends StatefulWidget{
@@ -215,7 +216,7 @@ class _LoginPage extends State<LoginPage>{
   Widget _submitButton(context) {
     return InkWell(
       onTap: () {          
-        Navigator.of(context).push(MaterialPageRoute(builder: (_) => FreelancerJobsList()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => FreelancerBottomNavigationBar()));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,

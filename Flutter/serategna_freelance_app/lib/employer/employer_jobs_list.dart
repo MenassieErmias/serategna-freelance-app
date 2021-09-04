@@ -87,37 +87,7 @@ class _EmployerJobsListState extends State<EmployerJobsList> {
         tooltip: 'Add Job',
         child: Icon(Icons.add),
         ), 
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        type: BottomNavigationBarType.fixed,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.assignment),
-            title: Text('Jobs'),
-            backgroundColor: Colors.red,
-            ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            title: Text('Profile'),
-            backgroundColor: Colors.green,
-            ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            title: Text('Notifications'),
-            backgroundColor: Colors.blue,
-            ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            title: Text('Favourites'),
-            backgroundColor: Colors.blue,
-            ),
-        ],
-        onTap: (index){
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        ),
+     
     );
   }
 }
