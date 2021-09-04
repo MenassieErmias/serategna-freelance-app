@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:serategna_freelance_app/admin/admin_bottom_navigation.dart';
 import 'package:serategna_freelance_app/auth/sign_up_screen.dart';
 import 'package:serategna_freelance_app/commons/loading.dart';
+import 'package:serategna_freelance_app/employer/employer_bottom_navigation.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_bottom_navigation.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_jobs_list.dart';
 
@@ -67,6 +69,10 @@ class _LoginPage extends State<LoginPage>{
                           _buildPasswordTextField(),
                           _forgotPasswordLabel(),
                           _submitButton(context),
+                          SizedBox(height: 5),
+                          _submitButton2(context),
+                          SizedBox(height: 5),
+                          _submitButton3(context),
                           _createAccountLabel(),
                         ],
                       ),
@@ -236,12 +242,68 @@ class _LoginPage extends State<LoginPage>{
                 end: Alignment.centerRight,
               colors: [Colors.green, Colors.cyan]
             )),
-        child: Text('Login',
+        child: Text('Login Freelancer',
             style: TextStyle(color: Colors.white, fontSize: 18.0)),
       ),
     );
   }
 
+  Widget _submitButton2(context) {
+    return InkWell(
+      onTap: () {          
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => EmployerBottomNavigationBar()));
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.grey.shade200,
+                  offset: Offset(2, 4),
+                  blurRadius: 5,
+                  spreadRadius: 2)
+            ],
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              colors: [Colors.green, Colors.cyan]
+            )),
+        child: Text('Login Employer (For Testing)',
+            style: TextStyle(color: Colors.white, fontSize: 18.0)),
+      ),
+    );
+  }
+  Widget _submitButton3(context) {
+    return InkWell(
+      onTap: () {          
+        Navigator.of(context).push(MaterialPageRoute(builder: (_) => AdminBottomNavigationBar()));
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(vertical: 15),
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.grey.shade200,
+                  offset: Offset(2, 4),
+                  blurRadius: 5,
+                  spreadRadius: 2)
+            ],
+            gradient: LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              colors: [Colors.green, Colors.cyan]
+            )),
+        child: Text('Login Admin (For Testing)',
+            style: TextStyle(color: Colors.white, fontSize: 18.0)),
+      ),
+    );
+  }
   Widget _forgotPasswordLabel() {
     return InkWell(
       onTap: () { },
