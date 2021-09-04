@@ -1,5 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:serategna_freelance_app/admin/admin_employer_list.dart';
+import 'package:serategna_freelance_app/admin/admin_freelancer_list.dart';
+import 'package:serategna_freelance_app/admin/admin_jobs_list.dart';
 import 'package:serategna_freelance_app/auth/login_screen.dart';
+import 'package:serategna_freelance_app/employer/add_job.dart';
+import 'package:serategna_freelance_app/employer/employer_notifications.dart';
+import 'package:serategna_freelance_app/employer/employer_profile.dart';
+
+import 'employer/employer_jobs_list.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +22,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginPage(),
+      home: EmployerJobsList(),
     );
   }
 }

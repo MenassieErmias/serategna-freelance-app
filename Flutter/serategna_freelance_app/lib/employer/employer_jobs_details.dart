@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:serategna_freelance_app/models/jobs_list.dart';
 
-class FreelancerJobsDetails extends StatefulWidget {
+class EmployerJobsDetails extends StatefulWidget {
 
   @override
-  _FreelancerJobsDetailsState createState() => _FreelancerJobsDetailsState();
+  _EmployerJobsDetailsState createState() => _EmployerJobsDetailsState();
 }
 
-class _FreelancerJobsDetailsState extends State<FreelancerJobsDetails> {
+class _EmployerJobsDetailsState extends State<EmployerJobsDetails> {
  List<JobsList> jobs = [
+    JobsList(titles: 'Graphics Designer', salary: '2000', jobType: 'Permanent', datePosted: '10/4/21', company: 'AZ Media'),
+    JobsList(titles: 'Graphics Designer', salary: '2000', jobType: 'Permanent', datePosted: '10/4/21', company: 'AZ Media'),
+    JobsList(titles: 'Graphics Designer', salary: '2000', jobType: 'Permanent', datePosted: '10/4/21', company: 'AZ Media'),
+    JobsList(titles: 'Graphics Designer', salary: '2000', jobType: 'Permanent', datePosted: '10/4/21', company: 'AZ Media'),
+    JobsList(titles: 'Graphics Designer', salary: '2000', jobType: 'Permanent', datePosted: '10/4/21', company: 'AZ Media'),
+    JobsList(titles: 'Graphics Designer', salary: '2000', jobType: 'Permanent', datePosted: '10/4/21', company: 'AZ Media'),
+    JobsList(titles: 'Graphics Designer', salary: '2000', jobType: 'Permanent', datePosted: '10/4/21', company: 'AZ Media'),
     JobsList(titles: 'Graphics Designer', salary: '2000', jobType: 'Permanent', datePosted: '10/4/21', company: 'AZ Media'),
   ];
   int _currentIndex = 0;
@@ -24,7 +31,7 @@ class _FreelancerJobsDetailsState extends State<FreelancerJobsDetails> {
         elevation: 0,
       ),
       body: ListView.builder(
-        itemCount: jobs.length,
+        itemCount: 1,
         itemBuilder: (context, index) {
     return new Container(
       child: Card(

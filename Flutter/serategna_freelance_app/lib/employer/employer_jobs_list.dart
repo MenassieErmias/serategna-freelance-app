@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:serategna_freelance_app/auth/login_screen.dart';
+import 'package:serategna_freelance_app/employer/add_job.dart';
+import 'package:serategna_freelance_app/employer/employer_profile.dart';
 import 'package:serategna_freelance_app/freelancer/freelancer_jobs_details.dart';
 import 'package:serategna_freelance_app/models/jobs_list.dart';
 
-class FreelancerJobsList extends StatefulWidget {
+class EmployerJobsList extends StatefulWidget {
   @override
-  _FreelancerJobsListState createState() => _FreelancerJobsListState();
+  _EmployerJobsListState createState() => _EmployerJobsListState();
 }
 
-class _FreelancerJobsListState extends State<FreelancerJobsList> {
+class _EmployerJobsListState extends State<EmployerJobsList> {
  List<JobsList> jobs = [
     JobsList(titles: 'Graphics Designer', salary: '2000', jobType: 'Permanent', datePosted: '10/4/21', company: 'AZ Media'),
     JobsList(titles: 'Graphics Designer', salary: '2000', jobType: 'Permanent', datePosted: '10/4/21', company: 'AZ Media'),
@@ -31,7 +32,7 @@ class _FreelancerJobsListState extends State<FreelancerJobsList> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Colors.purple[900],
+        backgroundColor: Colors.green[500],
         title: Text('Jobs'),
         centerTitle: true,
         elevation: 0,
@@ -56,16 +57,14 @@ class _FreelancerJobsListState extends State<FreelancerJobsList> {
                       child: Row(
                       children: <Widget>[
                         FlatButton(
-                          color: Colors.amber,
-                          child: Text("Details"),
-                          onPressed: () {        
-                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => FreelancerJobsDetails()));
-                          },
+                          color: Colors.cyan,
+                          child: Text("Edit"),
+                          onPressed: () {},
                         ),
                         SizedBox(width: 15,),
                         FlatButton(
-                          color: Colors.lime,
-                          child: Text("Favourite"),
+                          color: Colors.red[300],
+                          child: Text("Delete"),
                           onPressed: () {},
                         ),
                       ],
@@ -80,6 +79,14 @@ class _FreelancerJobsListState extends State<FreelancerJobsList> {
           );
         }
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        onPressed: (){
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => AddJob()));
+          },
+        tooltip: 'Add Job',
+        child: Icon(Icons.add),
+        ), 
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         type: BottomNavigationBarType.fixed,
