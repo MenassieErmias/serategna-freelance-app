@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:serategna_freelance_app/auth/login_screen.dart';
 import 'package:serategna_freelance_app/commons/loading.dart';
 import 'package:flutter/cupertino.dart';
 import '../commons/dialog.dart';
@@ -29,14 +30,11 @@ class _SignUpPage extends State<SignUpPage> {
   AccountType selectedAccount;
   List<AccountType> accountTypes = [
     const AccountType(
-        accountIcon: Icon(Icons.person), accountName: 'Pharmacy'),
-    const AccountType(accountIcon: Icon(Icons.home), accountName: 'Distributor'),
+        accountIcon: Icon(Icons.home), accountName: 'Employer'),
+    const AccountType(accountIcon: Icon(Icons.person), accountName: 'Freelancer'),
   ];
 
-  String _currentOwnerName;
-  String _currentShopName;
-  String _currentAddress;
-  String _currentTinNumber;
+  String _currentFullName;
   String _currentPhoneNumber;
   String _currentRole;
 
@@ -78,12 +76,6 @@ class _SignUpPage extends State<SignUpPage> {
                         SizedBox (height: MediaQuery.of(context).size.height * 0.015,),
                         _buildNameTextField(),
                         SizedBox (height: MediaQuery.of(context).size.height * 0.015,),
-                        _buildShopNameTextField(),
-                        SizedBox (height: MediaQuery.of(context).size.height * 0.015,),
-                        _buildAddressTextField(),
-                        SizedBox (height: MediaQuery.of(context).size.height * 0.015,),
-                        _buildTinTextField(),
-                        SizedBox (height: MediaQuery.of(context).size.height * 0.015,),
                         _buildPhoneTextField(),
                         SizedBox (height: MediaQuery.of(context).size.height * 0.015,),
                         _buildChooseAccountType(),
@@ -109,7 +101,7 @@ class _SignUpPage extends State<SignUpPage> {
               gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  //  colors: [Colors.green[400],Colors.green]
+                   colors: [Colors.green[400],Colors.green]
               )),
           width: double.infinity,
           height: isKeyboardShowing
@@ -128,9 +120,9 @@ class _SignUpPage extends State<SignUpPage> {
                   ? MediaQuery.of(context).size.height * 0.0
                   : MediaQuery.of(context).size.height * 0.06,
                 width: MediaQuery.of(context).size.width * 0.7,
-                child: Image.asset(
-                  "assets/images/logo2.png",
-                ),
+                // child: Image.asset(
+                //   "assets/images/logo2.png",
+                // ),
               ),
               Text(
                 'Register',
@@ -147,8 +139,8 @@ class _SignUpPage extends State<SignUpPage> {
   Widget _createAccountLabel() {
     return InkWell(
       onTap: () { 
-        widget.toggleView();
-      },
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => LoginPage()));
+          },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.02),
         padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.005),
@@ -239,12 +231,12 @@ class _SignUpPage extends State<SignUpPage> {
 
   Widget _buildNameTextField() {
     return TextFormField(
-      key: ValueKey('Owner Name'),
-      validator: (val) => val.isEmpty ? 'Please Enter Owner Name' : null,
-      onChanged: (val) => setState(() => _currentOwnerName = val),
+      key: ValueKey('Full Name'),
+      validator: (val) => val.isEmpty ? 'Please Enter Full Name' : null,
+      onChanged: (val) => setState(() => _currentFullName = val),
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        labelText: 'Owner Name',
+        labelText: 'Full Name',
         focusColor: Color(0xff4064f3),
         border: InputBorder.none,
         filled: true,
@@ -255,60 +247,7 @@ class _SignUpPage extends State<SignUpPage> {
       ),
     );
   }
-   Widget _buildShopNameTextField() {
-    return TextFormField(
-      key: ValueKey('Shop/Company Name'),
-      validator: (val) => val.isEmpty ? 'Please Enter Shop Name' : null,
-      onChanged: (val) => setState(() => _currentShopName = val),
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        labelText: 'Shop/Company Name',
-        focusColor: Color(0xff4064f3),
-        border: InputBorder.none,
-        filled: true,
-        fillColor: Color(0xfff3f3f4),
-        prefixIcon: Icon(Icons.business_center_outlined,
-          color: Theme.of(context).iconTheme.color,
-),
-      ),
-    );
-  }
-  Widget _buildAddressTextField() {
-    return TextFormField(
-      key: ValueKey('Address'),
-      validator: (val) => val.isEmpty ? 'Please Enter Address' : null,
-      onChanged: (val) => setState(() => _currentAddress = val),
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        labelText: 'Address',
-        focusColor: Color(0xff4064f3),
-        border: InputBorder.none,
-        filled: true,
-        fillColor: Color(0xfff3f3f4),
-        prefixIcon: Icon(Icons.location_on,
-          color: Theme.of(context).iconTheme.color,
-),
-      ),
-    );
-  }
-  Widget _buildTinTextField() {
-    return TextFormField(
-      key: ValueKey('Tin Number'),
-      validator: (val) => val.isEmpty ? 'Please Enter Tin Number' : null,
-      onChanged: (val) => setState(() => _currentTinNumber = val),
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        labelText: 'Tin Number',
-        focusColor: Color(0xff4064f3),
-        border: InputBorder.none,
-        filled: true,
-        fillColor: Color(0xfff3f3f4),
-        prefixIcon: Icon(Icons.file_present,
-          color: Theme.of(context).iconTheme.color,
-),
-      ),
-    );
-  }
+   
   Widget _buildPhoneTextField() {
     return TextFormField(
       key: ValueKey('Phone Number'),
@@ -332,12 +271,12 @@ class _SignUpPage extends State<SignUpPage> {
       hint: Text('Select Account Type'),
       value: selectedAccount,
       onChanged: (AccountType value) {
-         if (value.accountName == 'Pharmacy') {
+         if (value.accountName == 'Employer') {
           _isCompany = true;
-          _currentRole = 'Pharmacy';
-        } else if(value.accountName == 'Distributor') {
+          _currentRole = 'Employer';
+        } else if(value.accountName == 'Freelancer') {
           _isCompany = true;
-          _currentRole = 'Distributor';
+          _currentRole = 'Freelancer';
         }
         setState(() {
           selectedAccount = value;
@@ -380,7 +319,7 @@ class _SignUpPage extends State<SignUpPage> {
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                // colors: [Colors.green, Colors.cyan]
+                colors: [Colors.green, Colors.cyan]
                 )
               ),
         child: _isLoading == true

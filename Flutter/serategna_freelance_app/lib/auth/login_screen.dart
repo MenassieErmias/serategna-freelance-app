@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:serategna_freelance_app/auth/sign_up_screen.dart';
 import 'package:serategna_freelance_app/commons/loading.dart';
 
 class LoginPage extends StatefulWidget{
@@ -86,7 +87,7 @@ class _LoginPage extends State<LoginPage>{
               gradient: LinearGradient(
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
-                  //  colors: [Colors.lightBlue,Colors.cyan]
+                   colors: [Colors.lightBlue,Colors.cyan]
                   )),
           width: double.infinity,
           height: isKeyboardShowing
@@ -108,9 +109,9 @@ class _LoginPage extends State<LoginPage>{
                 // height: isKeyboardShowing ? 130 : 180,
                 width: MediaQuery.of(context).size.width * 0.7,
                 // width: 280,
-                child: Image.asset(
-                  "assets/images/logo2.png",
-                ),
+                // child: Image.asset(
+                //   "assets/images/logo2.png",
+                // ),
               ),
               SizedBox(
                 height: isKeyboardShowing
@@ -132,9 +133,9 @@ class _LoginPage extends State<LoginPage>{
 
   Widget _createAccountLabel(){
     return InkWell(
-      onTap: (){
-         widget.toggleView();
-      },
+      onTap: () { 
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => SignUpPage()));
+          },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10),
         padding: EdgeInsets.all(5),
@@ -229,7 +230,7 @@ class _LoginPage extends State<LoginPage>{
             gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-              // colors: [Colors.green, Colors.cyan]
+              colors: [Colors.green, Colors.cyan]
             )),
         child: Text('Login',
             style: TextStyle(color: Colors.white, fontSize: 18.0)),
