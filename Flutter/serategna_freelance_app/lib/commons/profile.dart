@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
 import 'package:serategna_freelance_app/commons/profile_update_form.dart';
+import 'package:serategna_freelance_app/commons/users_list.dart';
 import 'package:serategna_freelance_app/utils/pref_functions.dart';
 
 class Profile extends StatefulWidget {
@@ -41,42 +42,43 @@ class _ProfileState extends State<Profile> {
             print("user is:  $user");
             return ListTile(
               onTap: () {},
-              title: Text('\nName: ' +
-                          user.fullName +
-                          '\n'
-                              'Role: ' +
-                          user.role +
-                          '\n'
-                              'Phone Number: ' +
-                          user.phoneNumber +
-                          '\n'
-                              'email: ' +
-                          user.email +
-                          '\n' +
-                          'profession: ' +
-                          user.profession !=
-                      null
-                  ? user.profession
-                  : "" + '\n'),
-              subtitle: Column(
-                children: <Widget>[
-                  Container(
-                      child: Row(
-                    children: <Widget>[
-                      FlatButton(
-                        color: Colors.cyan,
-                        child: Text("Edit"),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProfileUpdateForm(user: user)));
-                        },
-                      ),
-                    ],
-                  ))
+              title: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  UsersList(
+                    text: "fullName: ",
+                    value: user.fullName,
+                  ),
+                  UsersList(
+                    text: "Email: ",
+                    value: user.email,
+                  ),
+                  UsersList(
+                    text: "Profession: ",
+                    value: user.profession != null ? user.profession : "",
+                  ),
+                  UsersList(
+                    text: "Phone Number: ",
+                    value: user.phoneNumber,
+                  ),
+                  UsersList(
+                    text: "Role: ",
+                    value: user.role,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  )
                 ],
+              ),
+              subtitle: FlatButton(
+                color: Colors.cyan,
+                child: Text("Edit"),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProfileUpdateForm(user: user)));
+                },
               ),
               leading: CircleAvatar(
                 child: Text(user.fullName.substring(0, 1).toUpperCase()),

@@ -6,8 +6,11 @@ class UsersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [Text(text), Text(value)],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3.0),
+      child: Row(
+        children: [Text(text), Text(value)],
+      ),
     );
   }
 }
