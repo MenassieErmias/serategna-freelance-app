@@ -3,15 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/bloc/application_bloc/bloc.dart';
 import 'package:serategna_freelance_app/bloc/favorite_bloc/bloc.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
-import 'package:serategna_freelance_app/commons/splash_screen.dart';
-import 'package:serategna_freelance_app/data_provider/application_data_provider.dart';
-import 'package:serategna_freelance_app/data_provider/favorite_data_provider.dart';
-import 'package:serategna_freelance_app/data_provider/job_data_provider.dart';
-import 'package:serategna_freelance_app/data_provider/user_data_provider.dart';
-import 'package:serategna_freelance_app/repository/application_repo.dart';
-import 'package:serategna_freelance_app/repository/favorite_repo.dart';
-import 'package:serategna_freelance_app/repository/job_repo.dart';
-import 'package:serategna_freelance_app/repository/user_repo.dart';
+import 'package:serategna_freelance_app/presentation/commons/splash_screen.dart';
+import 'package:serategna_freelance_app/data_layer/data_provider/application_data_provider.dart';
+import 'package:serategna_freelance_app/data_layer/data_provider/favorite_data_provider.dart';
+import 'package:serategna_freelance_app/data_layer/data_provider/job_data_provider.dart';
+import 'package:serategna_freelance_app/data_layer/data_provider/user_data_provider.dart';
+import 'package:serategna_freelance_app/data_layer/repository/application_repo.dart';
+import 'package:serategna_freelance_app/data_layer/repository/favorite_repo.dart';
+import 'package:serategna_freelance_app/data_layer/repository/job_repo.dart';
+import 'package:serategna_freelance_app/data_layer/repository/user_repo.dart';
 import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
 import 'package:http/http.dart' as http;
 
@@ -57,15 +57,12 @@ class MyApp extends StatelessWidget {
             BlocProvider(
                 create: (context) =>
                     UserBloc(userRepo: userRepo)..add(StartEvent())),
-            BlocProvider(
-                create: (context) => JobBloc(jobRepo: jobRepo)..add(JobLoad())),
+            BlocProvider(create: (context) => JobBloc(jobRepo: jobRepo)),
             BlocProvider(
                 create: (context) =>
-                    ApplicationBloc(applicationRepo: applicationRepo)
-                      ..add(ApplicationLoad())),
+                    ApplicationBloc(applicationRepo: applicationRepo)),
             BlocProvider(
-                create: (context) => FavoriteBloc(favoriteRepo: favoriteRepo)
-                  ..add(FavoriteLoad())),
+                create: (context) => FavoriteBloc(favoriteRepo: favoriteRepo)),
           ],
           child: MaterialApp(
             title: 'Flutter Demo',

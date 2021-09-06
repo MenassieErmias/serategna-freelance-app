@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:serategna_freelance_app/models/application_model.dart';
+import 'package:serategna_freelance_app/data_layer/models/application_model.dart';
 
 class ApplicationState extends Equatable {
   const ApplicationState();

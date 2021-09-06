@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/bloc/application_bloc/bloc.dart';
-import 'package:serategna_freelance_app/repository/application_repo.dart';
+import 'package:serategna_freelance_app/data_layer/repository/application_repo.dart';
 
 class ApplicationBloc extends Bloc<ApplicationEvent, ApplicationState> {
   final ApplicationRepo applicationRepo;

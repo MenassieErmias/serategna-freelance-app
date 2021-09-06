@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:serategna_freelance_app/models/user_model.dart';
+import 'package:serategna_freelance_app/data_layer/models/user_model.dart';
 
 class UserState extends Equatable {
   const UserState();
@@ -35,6 +35,8 @@ class EmployerLoginSucessState extends UserState {
 class UserRegisterSucessState extends UserState {}
 
 class UserUpdateSucessState extends UserState {}
+
+class UserLoggedOutState extends UserState {}
 
 class UsersLoadSucessState extends UserState {
   final List<UserModel> users;

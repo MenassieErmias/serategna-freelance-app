@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:serategna_freelance_app/models/favorite_model.dart';
+import 'package:serategna_freelance_app/data_layer/models/favorite_model.dart';
 
 class FavoriteState extends Equatable {
   const FavoriteState();

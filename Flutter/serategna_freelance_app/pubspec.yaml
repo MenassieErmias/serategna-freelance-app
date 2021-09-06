@@ -33,11 +33,14 @@ dependencies:
   shared_preferences: ^2.0.7
   equatable: ^2.0.3
   http: ^0.13.3
+  mockito: ^5.0.15
   flutter_slidable: ^0.5.7
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  bloc_test: ^8.1.0
+  build_runner: ^2.1.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

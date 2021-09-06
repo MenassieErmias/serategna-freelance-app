@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/bloc/favorite_bloc/bloc.dart';
-import 'package:serategna_freelance_app/repository/favorite_repo.dart';
+import 'package:serategna_freelance_app/data_layer/repository/favorite_repo.dart';
 
 class FavoriteBloc extends Bloc<FavoriteEvent, FavoriteState> {
   final FavoriteRepo favoriteRepo;

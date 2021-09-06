@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
-import 'package:serategna_freelance_app/repository/job_repo.dart';
+import 'package:serategna_freelance_app/data_layer/repository/job_repo.dart';
 
 class JobBloc extends Bloc<JobEvent, JobState> {
   final JobRepo jobRepo;

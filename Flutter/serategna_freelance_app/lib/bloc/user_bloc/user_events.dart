@@ -1,4 +1,4 @@
-import 'package:serategna_freelance_app/models/user_model.dart';
+import 'package:serategna_freelance_app/data_layer/models/user_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class UserEvent extends Equatable {
@@ -75,6 +75,10 @@ class EmployersLoad extends UserEvent {
   List<Object> get props => [user];
   @override
   String toString() => 'Users $user';
+}
+
+class Logout extends UserEvent {
+  List<Object> get props => [];
 }
 
 class FreelancersLoad extends UserEvent {

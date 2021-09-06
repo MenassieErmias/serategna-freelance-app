@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:serategna_freelance_app/models/job_model.dart';
+import 'package:serategna_freelance_app/data_layer/models/job_model.dart';
 
 abstract class JobEvent extends Equatable {
   const JobEvent();

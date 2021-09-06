@@ -14,10 +14,11 @@ async function httpCreateJob(req, res) {
 }
 
 async function httpGetJobs(req, res) {
-  console.log('hi');
+  console.log(await getJobs());
   res.status(200).json(await getJobs());
 }
 async function httpOwnGetJobs(req, res) {
+  console.log(await getOwnJobs(req.params.employerId));
   res.status(200).json(await getOwnJobs(req.params.employerId));
 }
 
