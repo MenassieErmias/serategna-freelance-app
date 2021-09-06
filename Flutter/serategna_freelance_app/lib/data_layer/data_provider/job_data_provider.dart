@@ -4,18 +4,15 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:serategna_freelance_app/constants/constants.dart';
 import 'package:serategna_freelance_app/data_layer/models/job_model.dart';
-import 'package:serategna_freelance_app/data_layer/models/job_model.dart';
 import 'package:serategna_freelance_app/utils/pref_functions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class JobDataProvider {
-  // final _baseUrl = 'http://192.168.122.1:5050';
   final http.Client httpClient;
 
   JobDataProvider({@required this.httpClient});
   LocallyStored locallyStored = LocallyStored();
 
-  Future<JobModel> createJob(JobModel job) async {
+  Future<void> createJob(JobModel job) async {
     final token = await locallyStored.getToken();
     final userId = await locallyStored.prefUser();
     final response = await httpClient.post(

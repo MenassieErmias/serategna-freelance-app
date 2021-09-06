@@ -10,7 +10,7 @@ class JobRepo {
     return jobDataProvider.getJobByID(id);
   }
 
-  Future<JobModel> createJob(JobModel job) async {
+  Future<void> createJob(JobModel job) async {
     return jobDataProvider.createJob(job);
   }
 

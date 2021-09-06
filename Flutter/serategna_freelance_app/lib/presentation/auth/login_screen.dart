@@ -10,10 +10,6 @@ import 'package:serategna_freelance_app/data_layer/models/user_model.dart';
 import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
 
 class LoginPage extends StatefulWidget {
-  static const routeName = '/login';
-  final Function toggleView;
-  LoginPage({this.toggleView});
-
   @override
   _LoginPage createState() => _LoginPage();
 }
