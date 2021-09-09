@@ -9,7 +9,7 @@ Features
     
 Group Members:
     Eden Cheru: ATR/5509
-    Kidist Wondimagegn: ATR/
+    Kidist Wondimagegn: ATR/9532/08
     Menassie Ermias: ATR/6151/09
     Mubarek Ahmedin : ATR/6501/09
     Yosef FikreYesus : ATR/4811/09
