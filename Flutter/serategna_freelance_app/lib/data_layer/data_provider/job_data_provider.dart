@@ -16,7 +16,7 @@ class JobDataProvider {
     final token = await locallyStored.getToken();
     final userId = await locallyStored.prefUser();
     final response = await httpClient.post(
-      Uri.http('192.168.1.103:5000', '/jobs'),
+      Uri.http('172.20.7.192:5000', '/jobs'),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token'
@@ -61,9 +61,10 @@ class JobDataProvider {
         .get(Uri.parse('${Constants.baseUrl}/jobs/$id'), headers: {
       HttpHeaders.authorizationHeader: 'Bearer $token',
     });
-    if (response.statusCode == 200)
+    if (response.statusCode == 200) {
+      print('from by id: ${response.body}');
       return JobModel.fromJson(jsonDecode(response.body));
-    else
+    } else
       throw Exception(jsonDecode(response.body)["message"]);
   }
 

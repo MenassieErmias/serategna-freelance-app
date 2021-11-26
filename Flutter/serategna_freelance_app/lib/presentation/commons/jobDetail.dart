@@ -4,29 +4,31 @@ import 'package:serategna_freelance_app/bloc/favorite_bloc/bloc.dart';
 import 'package:serategna_freelance_app/bloc/job_bloc/bloc.dart';
 import 'package:serategna_freelance_app/constants/constants.dart';
 import 'package:serategna_freelance_app/presentation/commons/detail.dart';
+import 'package:serategna_freelance_app/presentation/commons/favorite_button.dart';
+import 'package:serategna_freelance_app/presentation/commons/jobsList.dart';
+import 'package:serategna_freelance_app/presentation/commons/users_list.dart';
 import 'package:serategna_freelance_app/presentation/employer/add_job.dart';
 import 'package:serategna_freelance_app/presentation/freelancer/application_form.dart';
 import 'package:serategna_freelance_app/data_layer/models/job_model.dart';
+import 'package:serategna_freelance_app/utils/time_difference.dart';
 
-class JobsDetails extends StatefulWidget {
+Widget get size_5 => SizedBox(
+      height: 5,
+    );
+
+Widget get divider => Divider(
+      thickness: 2,
+    );
+
+class JobsDetails extends StatelessWidget {
   final JobModel job;
   final String role, userId;
 
   const JobsDetails({Key key, this.job, this.role, this.userId})
       : super(key: key);
-  @override
-  _JobsDetailsState createState() => _JobsDetailsState();
-}
-
-class _JobsDetailsState extends State<JobsDetails> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    print("from details ${widget.job}");
     return Scaffold(
         backgroundColor: Colors.grey[200],
         appBar: AppBar(
@@ -44,38 +46,86 @@ class _JobsDetailsState extends State<JobsDetails> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  DetailRow(
-                    title: "Job Title:   ",
-                    data: widget.job.title,
+                  Text(
+                    job.title,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  DetailRow(
-                    title: "Salary:   ",
-                    data: widget.job.salary.toString(),
+                  divider,
+                  size_5,
+                  Text(
+                    job.position,
+                    style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
                   ),
-                  DetailRow(
-                    title: "company:   ",
-                    data: widget.job.company,
+                  size_5,
+                  Text(
+                    'Posted ${timeDifference(job.createdAt)}',
+                    style: TextStyle(fontSize: 13),
                   ),
-                  DetailRow(
-                    title: "Position:   ",
-                    data: widget.job.position,
+                  SizedBox(
+                    height: 15,
                   ),
-                  DetailRow(
-                    title: "Description:   ",
-                    data: widget.job.description,
+                  // Text(data)
+                  Text(
+                    job.description,
+                    style: TextStyle(
+                      fontSize: 16,
+                      wordSpacing: 1.1,
+                      letterSpacing: 0.7,
+                    ),
                   ),
-                  DetailRow(
-                    title: "Job Type:   ",
-                    data: widget.job.jobType,
+                  SizedBox(
+                    height: 20,
                   ),
-                  DetailRow(
-                    title: "Posted by: ",
-                    data: widget.job.employer["fullName"],
+                  CustomRow(
+                    first: CustomColumn(
+                      text1: 'ETB ${job.salary}',
+                      text2: 'Salary',
+                    ),
+                    second: CustomColumn(
+                      text1: job.jobType,
+                      text2: 'Job Type',
+                    ),
                   ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  CustomRow(
+                    first: CustomColumn(
+                      text1: job.company,
+                      text2: 'Company',
+                    ),
+                    second: CustomColumn(
+                      text1: job.isAcceptingApplication ? 'Yes' : 'No',
+                      text2: 'Is Accepting',
+                    ),
+                  ),
+                  size_5,
+                  divider,
+
+                  Text(
+                    'About The Employer',
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                  size_5,
+                  UsersList(
+                    text: 'Name: ',
+                    value: job.employer['fullName'],
+                  ),
+                  UsersList(
+                    text: 'Email: ',
+                    value: job.employer['email'],
+                  ),
+                  size_5,
+                  divider
                 ],
               ),
-              widget.role == "Constants.EMPLOYER" &&
-                      widget.userId == widget.job.employer["_id"]
+              role == "Constants.EMPLOYER" && userId == job.employer["_id"]
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -97,7 +147,7 @@ class _JobsDetailsState extends State<JobsDetails> {
                                     MaterialPageRoute(
                                         builder: (context) => AddJob(
                                               createJob: false,
-                                              job: widget.job,
+                                              job: job,
                                             )));
                               },
                             ),
@@ -128,13 +178,13 @@ class _JobsDetailsState extends State<JobsDetails> {
                                 child: Text("Delete"),
                                 onPressed: () {
                                   BlocProvider.of<JobBloc>(context)
-                                      .add(JobDelete(job: widget.job));
+                                      .add(JobDelete(job: job));
                                 },
                               ),
                             ),
                           ),
                         ])
-                  : widget.role == Constants.ADMIN
+                  : role == Constants.ADMIN
                       ? SizedBox()
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -142,6 +192,12 @@ class _JobsDetailsState extends State<JobsDetails> {
                             Container(
                               child: ElevatedButton(
                                 style: ButtonStyle(
+                                    backgroundColor:
+                                        MaterialStateProperty.all(Colors.green),
+                                    shape: MaterialStateProperty.all(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(50))),
                                     fixedSize: MaterialStateProperty.all(Size(
                                         MediaQuery.of(context).size.width / 1.5,
                                         MediaQuery.of(context).size.height /
@@ -155,64 +211,13 @@ class _JobsDetailsState extends State<JobsDetails> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => Apply(
-                                              apply: true,
-                                              jobId: widget.job.id)));
+                                              apply: true, jobId: job.id)));
                                 },
                               ),
                             ),
-                            BlocConsumer<FavoriteBloc, FavoriteState>(
-                              listener: (context, state) {
-                                if (state is FavoriteOperationFailure) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text('${state.message}')));
-                                }
-                              },
-                              builder: (context, state) {
-                                if (state is FavoriteLoadSuccess) {
-                                  final favorites = state.favorites;
-                                  bool isFavorited = false;
-                                  favorites.forEach((favorite) {
-                                    if (favorite.job["_id"] == widget.job.id) {
-                                      isFavorited = true;
-                                      return;
-                                    }
-                                  });
-                                  return Container(
-                                    width:
-                                        MediaQuery.of(context).size.width / 4,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        shape: BoxShape.circle),
-                                    child: IconButton(
-                                        onPressed: () {
-                                          isFavorited
-                                              ? ""
-                                              : BlocProvider.of<FavoriteBloc>(
-                                                      context)
-                                                  .add(AddFavorite(
-                                                      widget.job.id));
-                                        },
-                                        icon: Icon(
-                                          isFavorited
-                                              ? Icons.favorite
-                                              : Icons.favorite_outline,
-                                          color: isFavorited
-                                              ? Colors.red
-                                              : Colors.black,
-                                        )),
-                                  );
-                                }
-                                return Container(
-                                    width:
-                                        MediaQuery.of(context).size.width / 4,
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        shape: BoxShape.circle),
-                                    child: IconButton(
-                                        onPressed: () {},
-                                        icon: Icon(Icons.favorite_outline)));
-                              },
+                            FavoriteButton(
+                              job.id,
+                              detail: true,
                             )
                           ],
                         )

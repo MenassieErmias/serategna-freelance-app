@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:serategna_freelance_app/bloc/user_bloc/bloc.dart';
 import 'package:serategna_freelance_app/data_layer/models/user_model.dart';
+import 'package:serategna_freelance_app/presentation/commons/profile.dart';
 
 class ProfileUpdateForm extends StatefulWidget {
   final UserModel user;
@@ -37,7 +38,8 @@ class _ProfileUpdateFormState extends State<ProfileUpdateForm> {
                 }
 
                 if (state is UserUpdateSucessState) {
-                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Profile()));
                 }
               },
               child: Form(
@@ -62,7 +64,7 @@ class _ProfileUpdateFormState extends State<ProfileUpdateForm> {
                     TextFormField(
                       initialValue: this.widget.user.email,
                       decoration: InputDecoration(
-                        labelText: 'Name',
+                        labelText: 'Email',
                         focusColor: Color(0xff4064f3),
                         border: InputBorder.none,
                         filled: true,
@@ -118,7 +120,7 @@ class _ProfileUpdateFormState extends State<ProfileUpdateForm> {
                         }
                         if (val.isEmpty) {
                           setState(() {
-                            val = null;
+                            userData["password"] = null;
                           });
                         }
                         return null;
@@ -137,7 +139,6 @@ class _ProfileUpdateFormState extends State<ProfileUpdateForm> {
                         onPressed: () {
                           final form = _formKey.currentState;
                           if (form.validate()) {
-                            print("password: ${userData["password"]}");
                             form.save();
                             UserModel userModel = UserModel(
                               id: widget.user.id,
@@ -145,9 +146,7 @@ class _ProfileUpdateFormState extends State<ProfileUpdateForm> {
                               email: userData["email"],
                               profession: userData["profession"],
                               phoneNumber: userData["phoneNumber"],
-                              password: userData["password"] != null
-                                  ? userData["password"]
-                                  : null,
+                              password: userData["password"],
                             );
                             UserEvent event = UserSelfUpdate(user: userModel);
                             BlocProvider.of<UserBloc>(context).add(event);

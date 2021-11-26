@@ -15,7 +15,7 @@ class UserDataProvider {
   LocallyStored locallyStored = LocallyStored();
   Future<UserModel> loginUser(UserModel user) async {
     final response = await httpClient.post(
-      Uri.http('192.168.1.103:5000', '/users/login'),
+      Uri.http('172.20.7.192:5000', '/users/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -32,7 +32,7 @@ class UserDataProvider {
 
   Future<UserModel> registerUser(UserModel user) async {
     final response = await httpClient.post(
-      Uri.http('192.168.1.103:5000', '/users'),
+      Uri.http('172.20.7.192:5000', '/users'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -68,26 +68,22 @@ class UserDataProvider {
 
   Future<void> updateUser(UserModel user) async {
     final token = await locallyStored.getToken();
-    Map<String, dynamic> body1 = {
+    Map<String, dynamic> body = {
       'fullName': user.fullName,
       'email': user.email,
-      'password': user.password,
       'role': user.role,
       'phoneNumber': user.phoneNumber,
     };
-    Map<String, dynamic> body2 = {
-      'fullName': user.fullName,
-      'email': user.email,
-      'role': user.role,
-      'phoneNumber': user.phoneNumber
-    };
+    if (user.password != null) {
+      body["password"] = user.password;
+    }
     final http.Response response = await httpClient.put(
       Uri.parse('${Constants.baseUrl}/users/${user.id}'),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token'
       },
-      body: jsonEncode(user.password != null ? body1 : body2),
+      body: jsonEncode(body),
     );
 
     if (response.statusCode != 200) {
@@ -103,9 +99,11 @@ class UserDataProvider {
       'profession': user.profession,
       'phoneNumber': user.phoneNumber
     };
-    if (user.password != null) {
+    if (user.password != null && user.password.isNotEmpty) {
+      print(user.password.isEmpty);
       body["password"] = user.password;
     }
+
     final http.Response response = await httpClient.put(
       Uri.parse('${Constants.baseUrl}/users/update'),
       headers: {

@@ -9,7 +9,16 @@ class UsersList extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3.0),
       child: Row(
-        children: [Text(text), Text(value)],
+        children: [
+          Text(
+            text,
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+          Text(
+            value,
+            style: Theme.of(context).textTheme.bodyText1,
+          )
+        ],
       ),
     );
   }

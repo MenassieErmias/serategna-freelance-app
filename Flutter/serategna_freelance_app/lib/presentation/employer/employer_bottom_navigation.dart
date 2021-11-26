@@ -34,17 +34,17 @@ class _EmployerBottomNavigationBarState
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.assignment),
-            title: Text('Jobs'),
+            label: 'Jobs',
             backgroundColor: Colors.red,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            title: Text('Profile'),
+            label: 'Profile',
             backgroundColor: Colors.green,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
-            title: Text('Notifications'),
+            label: 'Notifications',
             backgroundColor: Colors.blue,
           )
         ],

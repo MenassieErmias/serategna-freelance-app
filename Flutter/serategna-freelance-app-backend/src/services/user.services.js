@@ -35,6 +35,10 @@ async function deleteUser(id) {
 }
 
 async function updateSelf(id, body) {
+  if (body.password) {
+    body.password = await generatePasswordHash(body.password);
+  }
+  console.log(body);
   return await UserModel.updateOne({ _id: id }, body);
 }
 

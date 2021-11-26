@@ -55,17 +55,8 @@ class _FreelancerFavoritesState extends State<FreelancerFavorites> {
                         title: Text('\nTitle: ' +
                             favorites[index].job["title"] +
                             '\n'
-                                'Salary: ' +
+                                'Salary: ETB ' +
                             favorites[index].job["salary"].toString() +
-                            '\n'
-                                'Job Type: ' +
-                            favorites[index].job["jobType"] +
-                            '\n'
-                                'Date Posted: ' +
-                            favorites[index].job["position"] +
-                            '\n'
-                                'Company: ' +
-                            favorites[index].job["company"] +
                             '\n'),
                         subtitle: Column(
                           children: <Widget>[
@@ -94,12 +85,14 @@ class _FreelancerFavoritesState extends State<FreelancerFavorites> {
                                                           .job["jobType"],
                                                       id: favorites[index]
                                                           .job["_id"],
+                                                      createdAt:
+                                                          favorites[index]
+                                                              .job["createdAt"],
                                                       isAcceptingApplication:
                                                           favorites[index].job[
                                                               "isAcceptingApplication"],
-                                                      description:
-                                                          favorites[index].job[
-                                                              "description"]),
+                                                      description: favorites[index]
+                                                          .job["description"]),
                                                 )));
                                   },
                                 ),

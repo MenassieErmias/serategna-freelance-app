@@ -17,7 +17,7 @@ class ApplicationDataProvider {
       ApplicationModel application, String jobId) async {
     final token = await locallyStored.getToken();
     final response = await httpClient.post(
-      Uri.http('192.168.1.103:5000', '/applications'),
+      Uri.http('172.20.7.192:5000', '/applications'),
       headers: <String, String>{
         HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
         HttpHeaders.authorizationHeader: 'Bearer $token'

@@ -62,100 +62,30 @@ class _LoginPage extends State<LoginPage> {
                   .showSnackBar(SnackBar(content: Text('${state.message}')));
             }
           },
-          child: SingleChildScrollView(
-              child: Stack(children: [
-            Container(
-              height: MediaQuery.of(context).size.height + 300,
-              decoration: BoxDecoration(),
-              child: Column(children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: logo(isKeyboardShowing),
-                ),
-                Align(
-                  alignment: isKeyboardShowing
-                      ? Alignment.center
-                      : Alignment.bottomCenter,
-                  child: Form(
-                      key: _formKey,
-                      child: SingleChildScrollView(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20.0, vertical: 20.0),
-                          height: MediaQuery.of(context).size.height * 0.8,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              _buildEmailTextField(),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.02,
-                              ),
-                              _buildPasswordTextField(),
-                              SizedBox(height: 5),
-                              _submitButton(context),
-                              SizedBox(height: 5),
-                              _createAccountLabel(),
-                            ],
-                          ),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        _buildEmailTextField(),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.02,
                         ),
-                      )),
-                ),
-              ]),
-            ),
-          ])),
+                        _buildPasswordTextField(),
+                        SizedBox(height: 30),
+                        _submitButton(context),
+                        SizedBox(height: 5),
+                        _createAccountLabel(),
+                      ],
+                    ),
+                  ),
+                )),
+          ]),
         ));
-  }
-
-  Widget logo(isKeyboardShowing) {
-    return ClipPath(
-      child: Container(
-          decoration: BoxDecoration(
-              color: Color(0xFF1f40b7),
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [Colors.lightBlue, Colors.purple])),
-          width: double.infinity,
-          height: isKeyboardShowing
-              ? MediaQuery.of(context).size.height * 0.3
-              : MediaQuery.of(context).size.height * 0.5,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: isKeyboardShowing
-                    ? MediaQuery.of(context).size.height * 0.03
-                    : MediaQuery.of(context).size.height * 0.05,
-                // height: isKeyboardShowing ? 10.0 : 130.0,
-              ),
-              SizedBox(
-                height: isKeyboardShowing
-                    ? MediaQuery.of(context).size.height * 0.1
-                    : MediaQuery.of(context).size.height * 0.2,
-                // height: isKeyboardShowing ? 130 : 180,
-                width: MediaQuery.of(context).size.width * 0.7,
-                // width: 280,
-                // child: Image.asset(
-                //   "assets/images/logo2.png",
-                // ),
-              ),
-              SizedBox(
-                height: isKeyboardShowing
-                    ? MediaQuery.of(context).size.height * 0.01
-                    : MediaQuery.of(context).size.height * 0.02,
-                // height: isKeyboardShowing ? 10.0 : 20.0,
-              ),
-              Text(
-                'Login',
-                style: TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-            ],
-          )),
-    );
   }
 
   Widget _createAccountLabel() {
@@ -257,7 +187,6 @@ class _LoginPage extends State<LoginPage> {
             password: password,
             email: email,
           )));
-          print("event added");
         }
       },
       child: Container(
